@@ -29,7 +29,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Validate theme folder
         run: |
@@ -44,6 +44,10 @@ jobs:
           username: ${{ secrets.HOSTINGER_FTP_USERNAME }}
           password: ${{ secrets.HOSTINGER_FTP_PASSWORD }}
           port: ${{ secrets.HOSTINGER_FTP_PORT }}
+          protocol: ${{ secrets.HOSTINGER_FTP_PROTOCOL || 'ftp' }}
+          security: loose
+          timeout: 120000
+          log-level: verbose
           local-dir: ./woolyhome-b2b/
           server-dir: ${{ secrets.HOSTINGER_FTP_TARGET_DIR }}
           dry-run: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run == 'true' }}
