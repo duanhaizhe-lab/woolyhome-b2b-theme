@@ -27,6 +27,26 @@ Deployment target: upload the contents of this folder into `wp-content/themes/wo
 - Contact Form 7 or another form plugin if you want to replace the built-in placeholder inquiry form with a shortcode.
 - Yoast SEO or Rank Math is optional. The theme avoids outputting its own basic schema when these plugins are active.
 
+## ACF Field Registration
+
+Local ACF field groups are registered in:
+
+- `includes/acf-fields.php`
+
+The file is loaded from `functions.php` with:
+
+- `require_once WOOLYHOME_B2B_DIR . '/includes/acf-fields.php';`
+
+The registration function is attached to both `acf/init` and `acf/include_fields`, with an internal one-time guard to avoid duplicate registration.
+
+The Home field group uses these location rules:
+
+- `page_type == front_page`
+- The current `page_on_front` page ID, when WordPress has a static front page set
+- The page with slug `home`, when it exists
+
+After deploying, reopen `Pages > Home > Edit` to see the Home field group below the editor.
+
 ## Content Management
 
 Use WordPress admin:

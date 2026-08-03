@@ -7,10 +7,11 @@
 
 get_header();
 
-$hero_eyebrow = woolyhome_b2b_field('hero_eyebrow', get_the_ID(), 'Soft Natural Wool Lifestyle B2B Manufacturer');
-$hero_title = woolyhome_b2b_field('hero_title', get_the_ID(), 'Natural Wool & Sheepskin Products for Global B2B Buyers');
-$hero_subtitle = woolyhome_b2b_field('hero_subtitle', get_the_ID(), 'WoolyHome supplies soft, natural wool and sheepskin products for brands, wholesalers, retailers, hotels, and private label projects worldwide.');
-$hero_image = woolyhome_b2b_field('hero_image', get_the_ID(), null);
+$home_id = get_the_ID();
+$hero_eyebrow = woolyhome_b2b_field('hero_eyebrow', $home_id, 'Soft Natural Wool Lifestyle B2B Manufacturer');
+$hero_title = woolyhome_b2b_field('hero_title', $home_id, 'Natural Wool & Sheepskin Products for Global B2B Buyers');
+$hero_subtitle = woolyhome_b2b_field('hero_subtitle', $home_id, 'WoolyHome supplies soft, natural wool and sheepskin products for brands, wholesalers, retailers, hotels, and private label projects worldwide.');
+$hero_image = woolyhome_b2b_field('hero_image', $home_id, null);
 ?>
 <section class="wh-hero">
     <div class="wh-container wh-hero-grid">
@@ -20,8 +21,8 @@ $hero_image = woolyhome_b2b_field('hero_image', get_the_ID(), null);
             <p><?php echo esc_html($hero_subtitle); ?></p>
             <div class="wh-trust-line"><span>OEM / ODM Available</span><span>Bulk Supply</span><span>Private Label Support</span></div>
             <div class="wh-actions">
-                <a class="wh-btn wh-btn-primary" href="<?php echo esc_url(woolyhome_b2b_field('hero_primary_button_link', get_the_ID(), '#inquiry')); ?>"><?php echo esc_html(woolyhome_b2b_field('hero_primary_button_text', get_the_ID(), 'Request a Quote')); ?></a>
-                <a class="wh-btn wh-btn-secondary" href="<?php echo esc_url(woolyhome_b2b_field('hero_secondary_button_link', get_the_ID(), '#products')); ?>"><?php echo esc_html(woolyhome_b2b_field('hero_secondary_button_text', get_the_ID(), 'View Product Range')); ?></a>
+                <a class="wh-btn wh-btn-primary" href="<?php echo esc_url(woolyhome_b2b_field('hero_primary_button_link', $home_id, '#inquiry')); ?>"><?php echo esc_html(woolyhome_b2b_field('hero_primary_button_text', $home_id, 'Request a Quote')); ?></a>
+                <a class="wh-btn wh-btn-secondary" href="<?php echo esc_url(woolyhome_b2b_field('hero_secondary_button_link', $home_id, '#products')); ?>"><?php echo esc_html(woolyhome_b2b_field('hero_secondary_button_text', $home_id, 'View Product Range')); ?></a>
             </div>
         </div>
         <div class="wh-hero-visual">
@@ -35,12 +36,12 @@ $hero_image = woolyhome_b2b_field('hero_image', get_the_ID(), null);
     <div class="wh-container">
         <div class="wh-section-heading center">
             <p class="wh-eyebrow">Product Range</p>
-            <h2><?php echo esc_html(woolyhome_b2b_field('product_categories_title', get_the_ID(), 'Explore Our Wool & Sheepskin Product Range')); ?></h2>
-            <p><?php echo esc_html(woolyhome_b2b_field('product_categories_text', get_the_ID(), 'From home textiles to wearable wool accessories, WoolyHome develops natural product collections for bulk buyers and private label partners.')); ?></p>
+            <h2><?php echo esc_html(woolyhome_b2b_first_field(array('product_categories_section_title', 'product_categories_title'), $home_id, 'Explore Our Wool & Sheepskin Product Range')); ?></h2>
+            <p><?php echo esc_html(woolyhome_b2b_first_field(array('product_categories_section_text', 'product_categories_text'), $home_id, 'From home textiles to wearable wool accessories, WoolyHome develops natural product collections for bulk buyers and private label partners.')); ?></p>
         </div>
         <div class="wh-category-grid">
             <?php
-            $category_cards = woolyhome_b2b_field('product_category_cards', get_the_ID(), array());
+            $category_cards = woolyhome_b2b_field('product_category_cards', $home_id, array());
             if (!$category_cards) {
                 $category_cards = array_map(function ($cat) {
                     return array('title' => $cat['name'], 'description' => $cat['desc'], 'image' => null, 'link' => home_url('/product-category/' . $cat['slug'] . '/'));
@@ -68,13 +69,13 @@ $hero_image = woolyhome_b2b_field('hero_image', get_the_ID(), null);
     <div class="wh-container wh-value-grid">
         <div>
             <p class="wh-eyebrow">Why WoolyHome</p>
-            <h2><?php echo esc_html(woolyhome_b2b_field('why_section_title', get_the_ID(), 'Why Global Buyers Work with WoolyHome')); ?></h2>
-            <p><?php echo esc_html(woolyhome_b2b_field('why_section_text', get_the_ID(), 'We combine natural wool materials, flexible customization, and export-focused production support to help B2B buyers build reliable wool product collections.')); ?></p>
+            <h2><?php echo esc_html(woolyhome_b2b_first_field(array('why_title', 'why_section_title'), $home_id, 'Why Global Buyers Work with WoolyHome')); ?></h2>
+            <p><?php echo esc_html(woolyhome_b2b_first_field(array('why_text', 'why_section_text'), $home_id, 'We combine natural wool materials, flexible customization, and export-focused production support to help B2B buyers build reliable wool product collections.')); ?></p>
             <a class="wh-btn wh-btn-primary" href="#inquiry">Discuss Your Project</a>
         </div>
         <div class="wh-value-cards">
             <?php
-            $why = woolyhome_b2b_field('why_points', get_the_ID(), array(
+            $why = woolyhome_b2b_field('why_points', $home_id, array(
                 array('title' => 'Natural Wool Materials', 'text' => 'Selected wool and sheepskin materials for soft, breathable, and comfortable product lines.'),
                 array('title' => 'OEM / ODM Support', 'text' => 'Custom size, color, label, packaging, and product development support for private label buyers.'),
                 array('title' => 'Bulk Production', 'text' => 'Stable production planning for wholesale, retail, hotel, and seasonal purchasing needs.'),
@@ -86,7 +87,7 @@ $hero_image = woolyhome_b2b_field('hero_image', get_the_ID(), null);
                 <article class="wh-value-card <?php echo $i === count($why) && $i % 2 ? 'wh-wide' : ''; ?>">
                     <span><?php echo esc_html(str_pad((string) $i, 2, '0', STR_PAD_LEFT)); ?></span>
                     <h3><?php echo esc_html($point['title'] ?? 'Value Point'); ?></h3>
-                    <p><?php echo esc_html($point['text'] ?? 'B2B manufacturer support.'); ?></p>
+                    <p><?php echo esc_html($point['description'] ?? $point['text'] ?? 'B2B manufacturer support.'); ?></p>
                 </article>
             <?php $i++; endforeach; ?>
         </div>
@@ -95,27 +96,27 @@ $hero_image = woolyhome_b2b_field('hero_image', get_the_ID(), null);
 
 <section class="wh-section" id="oem">
     <div class="wh-container wh-split">
-        <?php echo woolyhome_b2b_image(woolyhome_b2b_field('oem_section_image', get_the_ID(), null), 'OEM packaging image', 'wh-tall-image', 'large', 'oem packaging'); ?>
+        <?php echo woolyhome_b2b_image(woolyhome_b2b_first_field(array('oem_image', 'oem_section_image'), $home_id, null), 'OEM packaging image', 'wh-tall-image', 'large', 'oem packaging'); ?>
         <div>
             <p class="wh-eyebrow">OEM / ODM</p>
-            <h2><?php echo esc_html(woolyhome_b2b_field('oem_section_title', get_the_ID(), 'OEM / ODM Wool Product Development')); ?></h2>
-            <p><?php echo esc_html(woolyhome_b2b_field('oem_section', get_the_ID(), 'Support your brand with flexible customization for wool and sheepskin products, from material selection to branded packaging.')); ?></p>
+            <h2><?php echo esc_html(woolyhome_b2b_first_field(array('oem_title', 'oem_section_title'), $home_id, 'OEM / ODM Wool Product Development')); ?></h2>
+            <p><?php echo esc_html(woolyhome_b2b_first_field(array('oem_text', 'oem_section'), $home_id, 'Support your brand with flexible customization for wool and sheepskin products, from material selection to branded packaging.')); ?></p>
             <div class="wh-option-grid">
-                <?php foreach (woolyhome_b2b_textarea_lines(woolyhome_b2b_field('oem_options_text', get_the_ID(), ''), array('Custom Size & Shape', 'Material & Wool Filling Options', 'Private Label & Woven Labels', 'Custom Packaging', 'Sample Development', 'Bulk Order Support')) as $option) : ?>
+                <?php foreach (woolyhome_b2b_repeater_values(woolyhome_b2b_first_field(array('oem_options', 'oem_options_text'), $home_id, ''), array('Custom Size & Shape', 'Material & Wool Filling Options', 'Private Label & Woven Labels', 'Custom Packaging', 'Sample Development', 'Bulk Order Support')) as $option) : ?>
                     <span><?php echo esc_html($option); ?></span>
                 <?php endforeach; ?>
             </div>
-            <a class="wh-btn wh-btn-primary" href="<?php echo esc_url(woolyhome_b2b_field('oem_button_link', get_the_ID(), home_url('/oem-odm/'))); ?>"><?php echo esc_html(woolyhome_b2b_field('oem_button_text', get_the_ID(), 'Start OEM / ODM Project')); ?></a>
+            <a class="wh-btn wh-btn-primary" href="<?php echo esc_url(woolyhome_b2b_field('oem_button_link', $home_id, home_url('/oem-odm/'))); ?>"><?php echo esc_html(woolyhome_b2b_field('oem_button_text', $home_id, 'Start OEM / ODM Project')); ?></a>
         </div>
     </div>
 </section>
 
 <section class="wh-section wh-section-cream" id="factory">
     <div class="wh-container">
-        <div class="wh-section-heading center"><p class="wh-eyebrow">Factory & Production</p><h2><?php echo esc_html(woolyhome_b2b_field('factory_section_title', get_the_ID(), 'Clean, Organized Production for B2B Orders')); ?></h2><p><?php echo esc_html(woolyhome_b2b_field('factory_section', get_the_ID(), 'Our production process is designed for consistent quality, practical customization, and reliable bulk order fulfillment.')); ?></p></div>
+        <div class="wh-section-heading center"><p class="wh-eyebrow">Factory & Production</p><h2><?php echo esc_html(woolyhome_b2b_first_field(array('factory_title', 'factory_section_title'), $home_id, 'Clean, Organized Production for B2B Orders')); ?></h2><p><?php echo esc_html(woolyhome_b2b_first_field(array('factory_text', 'factory_section'), $home_id, 'Our production process is designed for consistent quality, practical customization, and reliable bulk order fulfillment.')); ?></p></div>
         <div class="wh-process-grid">
-            <?php foreach (woolyhome_b2b_textarea_lines(woolyhome_b2b_field('factory_steps_text', get_the_ID(), ''), array('Material Preparation', 'Cutting & Sewing', 'Filling & Finishing', 'Packing for Shipment')) as $step) : ?>
-                <article class="wh-process-card"><?php echo woolyhome_b2b_image(woolyhome_b2b_field('factory_section_image', get_the_ID(), null), 'Factory clean production image', 'wh-process-image', 'large', 'factory'); ?><h3><?php echo esc_html($step); ?></h3><p>Clean production support for wool and sheepskin B2B orders.</p></article>
+            <?php foreach (woolyhome_b2b_repeater_values(woolyhome_b2b_first_field(array('factory_steps', 'factory_steps_text'), $home_id, ''), array('Material Preparation', 'Cutting & Sewing', 'Filling & Finishing', 'Packing for Shipment')) as $step) : ?>
+                <article class="wh-process-card"><?php echo woolyhome_b2b_image(woolyhome_b2b_first_field(array('factory_image', 'factory_section_image'), $home_id, null), 'Factory clean production image', 'wh-process-image', 'large', 'factory'); ?><h3><?php echo esc_html($step); ?></h3><p>Clean production support for wool and sheepskin B2B orders.</p></article>
             <?php endforeach; ?>
         </div>
     </div>
@@ -123,8 +124,8 @@ $hero_image = woolyhome_b2b_field('hero_image', get_the_ID(), null);
 
 <section class="wh-section wh-section-blue" id="quality">
     <div class="wh-container wh-quality-grid">
-        <div><p class="wh-eyebrow">Quality Control</p><h2><?php echo esc_html(woolyhome_b2b_field('quality_section_title', get_the_ID(), 'Quality Control Before Every Shipment')); ?></h2><p><?php echo esc_html(woolyhome_b2b_field('quality_section', get_the_ID(), 'From incoming materials to final packing, each order is checked to support stable quality for international buyers.')); ?></p><a class="wh-btn wh-btn-primary" href="<?php echo esc_url(home_url('/quality-control/')); ?>">Learn About Quality Control</a></div>
-        <div class="wh-quality-panel"><?php echo woolyhome_b2b_image(woolyhome_b2b_field('quality_section_image', get_the_ID(), null), 'Quality inspection image', 'wh-quality-image', 'large', 'quality'); ?><ol class="wh-step-list"><?php $q_i = 1; foreach (woolyhome_b2b_textarea_lines(woolyhome_b2b_field('quality_steps_text', get_the_ID(), ''), array('Material Check', 'Size & Specification Check', 'Stitching & Finish Check', 'Cleanliness Review', 'Final Packing Inspection')) as $step) : ?><li><span><?php echo esc_html(str_pad((string) $q_i, 2, '0', STR_PAD_LEFT)); ?></span><?php echo esc_html($step); ?></li><?php $q_i++; endforeach; ?></ol></div>
+        <div><p class="wh-eyebrow">Quality Control</p><h2><?php echo esc_html(woolyhome_b2b_first_field(array('quality_title', 'quality_section_title'), $home_id, 'Quality Control Before Every Shipment')); ?></h2><p><?php echo esc_html(woolyhome_b2b_first_field(array('quality_text', 'quality_section'), $home_id, 'From incoming materials to final packing, each order is checked to support stable quality for international buyers.')); ?></p><a class="wh-btn wh-btn-primary" href="<?php echo esc_url(home_url('/quality-control/')); ?>">Learn About Quality Control</a></div>
+        <div class="wh-quality-panel"><?php echo woolyhome_b2b_image(woolyhome_b2b_first_field(array('quality_image', 'quality_section_image'), $home_id, null), 'Quality inspection image', 'wh-quality-image', 'large', 'quality'); ?><ol class="wh-step-list"><?php $q_i = 1; foreach (woolyhome_b2b_repeater_values(woolyhome_b2b_first_field(array('quality_steps', 'quality_steps_text'), $home_id, ''), array('Material Check', 'Size & Specification Check', 'Stitching & Finish Check', 'Cleanliness Review', 'Final Packing Inspection')) as $step) : ?><li><span><?php echo esc_html(str_pad((string) $q_i, 2, '0', STR_PAD_LEFT)); ?></span><?php echo esc_html($step); ?></li><?php $q_i++; endforeach; ?></ol></div>
     </div>
 </section>
 
@@ -144,7 +145,7 @@ $hero_image = woolyhome_b2b_field('hero_image', get_the_ID(), null);
         <div class="wh-section-heading row"><div><p class="wh-eyebrow">Featured Collections</p><h2>Featured Wool & Sheepskin Collections</h2><p>Explore selected product directions for wholesale, private label, and OEM / ODM sourcing.</p></div><a class="wh-btn wh-btn-secondary" href="<?php echo esc_url(get_post_type_archive_link('products') ?: home_url('/products/')); ?>">View All Products</a></div>
         <div class="wh-products-grid">
             <?php
-            $selected_products = woolyhome_b2b_field('selected_featured_products', get_the_ID(), array());
+            $selected_products = woolyhome_b2b_field('selected_featured_products', $home_id, array());
             $products = $selected_products ?: get_posts(array('post_type' => 'products', 'posts_per_page' => 6));
             if ($products) {
                 foreach ($products as $product) {
@@ -160,11 +161,11 @@ $hero_image = woolyhome_b2b_field('hero_image', get_the_ID(), null);
     </div>
 </section>
 
-<?php get_template_part('template-parts/components/inquiry-cta', null, array('title' => woolyhome_b2b_field('inquiry_cta_title', get_the_ID(), 'Looking for Wool Products for Your Brand?'), 'text' => woolyhome_b2b_field('inquiry_cta_text', get_the_ID(), 'Tell us what you are sourcing. We will help you review product options, customization details, and bulk order requirements.'), 'shortcode' => woolyhome_b2b_field('inquiry_form_shortcode', get_the_ID(), ''))); ?>
+<?php get_template_part('template-parts/components/inquiry-cta', null, array('title' => woolyhome_b2b_first_field(array('inquiry_title', 'inquiry_cta_title'), $home_id, 'Looking for Wool Products for Your Brand?'), 'text' => woolyhome_b2b_first_field(array('inquiry_text', 'inquiry_cta_text'), $home_id, 'Tell us what you are sourcing. We will help you review product options, customization details, and bulk order requirements.'), 'shortcode' => woolyhome_b2b_field('inquiry_form_shortcode', $home_id, ''))); ?>
 
 <section class="wh-section">
     <div class="wh-container">
-        <div class="wh-section-heading row"><div><p class="wh-eyebrow">Sourcing Insights</p><h2><?php echo esc_html(woolyhome_b2b_field('blog_preview_title', get_the_ID(), 'Insights for Wool Product Sourcing')); ?></h2><p><?php echo esc_html(woolyhome_b2b_field('blog_preview_text', get_the_ID(), 'Read practical guides about wool materials, product development, private label sourcing, and care tips for natural wool products.')); ?></p></div><a class="wh-btn wh-btn-secondary" href="<?php echo esc_url(get_permalink(get_option('page_for_posts')) ?: home_url('/blog/')); ?>">View Blog</a></div>
+        <div class="wh-section-heading row"><div><p class="wh-eyebrow">Sourcing Insights</p><h2><?php echo esc_html(woolyhome_b2b_field('blog_preview_title', $home_id, 'Insights for Wool Product Sourcing')); ?></h2><p><?php echo esc_html(woolyhome_b2b_field('blog_preview_text', $home_id, 'Read practical guides about wool materials, product development, private label sourcing, and care tips for natural wool products.')); ?></p></div><a class="wh-btn wh-btn-secondary" href="<?php echo esc_url(get_permalink(get_option('page_for_posts')) ?: home_url('/blog/')); ?>">View Blog</a></div>
         <div class="wh-posts-grid">
             <?php
             $posts = get_posts(array('post_type' => 'post', 'posts_per_page' => 3));
