@@ -26,6 +26,7 @@ jobs:
   deploy-theme:
     name: Upload theme by FTP
     runs-on: ubuntu-latest
+    timeout-minutes: 5
 
     steps:
       - name: Checkout repository
