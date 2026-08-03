@@ -4,6 +4,8 @@ Theme folder: `woolyhome-b2b`
 
 This is a custom WordPress theme for a wool / sheepskin B2B manufacturer website. It is not a WooCommerce theme and does not include cart, payment, price, discounts, ratings, or Add to Cart features.
 
+Deployment target: upload the contents of this folder into `wp-content/themes/woolyhome-b2b/`.
+
 ## Included Templates
 
 - `front-page.php`: Home page with hero, product categories, value points, OEM / ODM, factory, quality control, buyer types, featured products, inquiry CTA, and blog preview.
