@@ -1,0 +1,333 @@
+<?php
+/**
+ * WoolyHome B2B theme functions.
+ *
+ * @package WoolyHome_B2B
+ */
+
+if (!defined('ABSPATH')) {
+    exit;
+}
+
+define('WOOLYHOME_B2B_VERSION', '0.1.0');
+define('WOOLYHOME_B2B_DIR', get_template_directory());
+define('WOOLYHOME_B2B_URI', get_template_directory_uri());
+
+function woolyhome_b2b_setup(): void {
+    add_theme_support('title-tag');
+    add_theme_support('post-thumbnails');
+    add_theme_support('html5', array('search-form', 'comment-form', 'comment-list', 'gallery', 'caption', 'style', 'script'));
+    add_theme_support('custom-logo', array(
+        'height'      => 80,
+        'width'       => 280,
+        'flex-height' => true,
+        'flex-width'  => true,
+    ));
+    add_theme_support('align-wide');
+    register_nav_menus(array(
+        'primary' => __('Primary Menu', 'woolyhome-b2b'),
+        'footer'  => __('Footer Menu', 'woolyhome-b2b'),
+    ));
+}
+add_action('after_setup_theme', 'woolyhome_b2b_setup');
+
+function woolyhome_b2b_assets(): void {
+    wp_enqueue_style(
+        'woolyhome-fonts',
+        'https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Manrope:wght@400;500;600;700;800&display=swap',
+        array(),
+        null
+    );
+    wp_enqueue_style('woolyhome-b2b-main', WOOLYHOME_B2B_URI . '/assets/css/main.css', array('woolyhome-fonts'), WOOLYHOME_B2B_VERSION);
+    wp_enqueue_script('woolyhome-b2b-main', WOOLYHOME_B2B_URI . '/assets/js/main.js', array(), WOOLYHOME_B2B_VERSION, true);
+}
+add_action('wp_enqueue_scripts', 'woolyhome_b2b_assets');
+
+function woolyhome_b2b_register_content_types(): void {
+    register_post_type('products', array(
+        'labels' => array(
+            'name'          => __('Products', 'woolyhome-b2b'),
+            'singular_name' => __('Product', 'woolyhome-b2b'),
+            'add_new_item'  => __('Add New Product', 'woolyhome-b2b'),
+            'edit_item'     => __('Edit Product', 'woolyhome-b2b'),
+        ),
+        'public'       => true,
+        'has_archive'  => true,
+        'show_in_rest' => true,
+        'menu_icon'    => 'dashicons-products',
+        'supports'     => array('title', 'editor', 'thumbnail', 'excerpt', 'revisions'),
+        'rewrite'      => array('slug' => 'products'),
+    ));
+
+    register_taxonomy('product-category', array('products'), array(
+        'labels' => array(
+            'name'          => __('Product Categories', 'woolyhome-b2b'),
+            'singular_name' => __('Product Category', 'woolyhome-b2b'),
+        ),
+        'public'       => true,
+        'hierarchical' => true,
+        'show_in_rest' => true,
+        'rewrite'      => array('slug' => 'product-category'),
+    ));
+}
+add_action('init', 'woolyhome_b2b_register_content_types');
+
+function woolyhome_b2b_customize_register(WP_Customize_Manager $wp_customize): void {
+    $wp_customize->add_section('woolyhome_contact', array(
+        'title'    => __('WoolyHome Contact & Forms', 'woolyhome-b2b'),
+        'priority' => 35,
+    ));
+
+    $settings = array(
+        'contact_email'          => array('Email', 'duanhaizhe@gmail.com'),
+        'contact_phone'          => array('Phone', '+86 135 8212 2653'),
+        'contact_whatsapp'       => array('WhatsApp Link', 'https://wa.me/8613582122653'),
+        'contact_phone_link'     => array('Phone Link', 'tel:+8613582122653'),
+        'contact_address'        => array('Address', 'ShiJiaZhuang 050000, China'),
+        'inquiry_form_shortcode' => array('Inquiry Form Shortcode', ''),
+        'newsletter_shortcode'   => array('Newsletter Shortcode', ''),
+        'cn_language_link'       => array('Chinese Link', '/cn/'),
+    );
+
+    foreach ($settings as $key => $data) {
+        $wp_customize->add_setting($key, array(
+            'default'           => $data[1],
+            'sanitize_callback' => 'sanitize_text_field',
+        ));
+        $wp_customize->add_control($key, array(
+            'section' => 'woolyhome_contact',
+            'label'   => $data[0],
+            'type'    => $key === 'inquiry_form_shortcode' || $key === 'newsletter_shortcode' ? 'textarea' : 'text',
+        ));
+    }
+}
+add_action('customize_register', 'woolyhome_b2b_customize_register');
+
+function woolyhome_b2b_contact(string $key): string {
+    $defaults = array(
+        'contact_email'          => 'duanhaizhe@gmail.com',
+        'contact_phone'          => '+86 135 8212 2653',
+        'contact_whatsapp'       => 'https://wa.me/8613582122653',
+        'contact_phone_link'     => 'tel:+8613582122653',
+        'contact_address'        => 'ShiJiaZhuang 050000, China',
+        'inquiry_form_shortcode' => '',
+        'newsletter_shortcode'   => '',
+        'cn_language_link'       => '/cn/',
+    );
+    return (string) get_theme_mod($key, $defaults[$key] ?? '');
+}
+
+function woolyhome_b2b_field(string $key, $post_id = false, $default = null) {
+    if (function_exists('get_field')) {
+        $value = get_field($key, $post_id);
+        if ($value !== null && $value !== false && $value !== '') {
+            return $value;
+        }
+    }
+    return $default;
+}
+
+function woolyhome_b2b_placeholder(string $label, string $class = ''): string {
+    return '<div class="wh-placeholder ' . esc_attr($class) . '"><span>' . esc_html($label) . '</span></div>';
+}
+
+function woolyhome_b2b_image($image, string $label, string $class = '', string $size = 'large'): string {
+    if (is_array($image) && !empty($image['ID'])) {
+        return wp_get_attachment_image((int) $image['ID'], $size, false, array('class' => trim('wh-image ' . $class)));
+    }
+    if (is_numeric($image) && (int) $image > 0) {
+        return wp_get_attachment_image((int) $image, $size, false, array('class' => trim('wh-image ' . $class)));
+    }
+    if (is_string($image) && $image !== '') {
+        return '<img class="wh-image ' . esc_attr($class) . '" src="' . esc_url($image) . '" alt="' . esc_attr($label) . '">';
+    }
+    return woolyhome_b2b_placeholder($label, $class);
+}
+
+function woolyhome_b2b_demo_categories(): array {
+    return array(
+        array('name' => 'Sheepskin Rugs', 'slug' => 'sheepskin-rugs', 'desc' => 'Soft natural sheepskin rugs for home retail, hospitality, and lifestyle collections.'),
+        array('name' => 'Wool Comforters', 'slug' => 'wool-comforters', 'desc' => 'Breathable wool-filled comforters for bedding brands, hotels, and home textile buyers.'),
+        array('name' => 'Wool Dryer Balls', 'slug' => 'wool-dryer-balls', 'desc' => 'Reusable wool dryer balls for eco-friendly laundry, gift sets, and private label programs.'),
+        array('name' => 'Wool Gloves', 'slug' => 'wool-gloves', 'desc' => 'Warm wool gloves for seasonal retail, outdoor use, and custom brand programs.'),
+        array('name' => 'Wool Socks', 'slug' => 'wool-socks', 'desc' => 'Comfortable wool socks for lifestyle, outdoor, travel, and wholesale collections.'),
+    );
+}
+
+function woolyhome_b2b_demo_products(): array {
+    return array(
+        array('title' => 'Natural Sheepskin Rug', 'category' => 'Sheepskin Rugs', 'desc' => 'Soft rug direction for home retail, decor brands, and hospitality spaces.'),
+        array('title' => 'All-Season Wool Comforter', 'category' => 'Wool Comforters', 'desc' => 'Breathable wool bedding direction for private label and hotel sourcing.'),
+        array('title' => 'Reusable Wool Dryer Balls', 'category' => 'Wool Dryer Balls', 'desc' => 'Natural laundry product for eco-friendly gift sets and retail programs.'),
+        array('title' => 'Winter Wool Gloves', 'category' => 'Wool Gloves', 'desc' => 'Warm seasonal accessory option for outdoor, lifestyle, and wholesale buyers.'),
+        array('title' => 'Warm Wool Socks', 'category' => 'Wool Socks', 'desc' => 'Comfortable wool sock programs for retail, travel, and outdoor collections.'),
+    );
+}
+
+function woolyhome_b2b_default_faq(): array {
+    return array(
+        array('question' => 'Can WoolyHome support OEM / ODM orders?', 'answer' => 'Yes. We can support custom size, material, label, packaging, and sample development for B2B buyers.'),
+        array('question' => 'Can I replace the inquiry form later?', 'answer' => 'Yes. Replace the form shortcode in the Customizer or page ACF field with Contact Form 7, Web3Forms, or another form plugin shortcode.'),
+        array('question' => 'How are products managed in this theme?', 'answer' => 'Products are managed with a dedicated B2B Products post type for inquiry-based sourcing and product presentation.'),
+    );
+}
+
+function woolyhome_b2b_render_inquiry_form($shortcode = ''): void {
+    $shortcode = $shortcode ?: woolyhome_b2b_contact('inquiry_form_shortcode');
+    if ($shortcode) {
+        echo '<div class="wh-form-shortcode">' . do_shortcode($shortcode) . '</div>';
+        return;
+    }
+    ?>
+    <form class="wh-inquiry-form" action="#" method="post">
+        <label><span>Name</span><input type="text" name="name" placeholder="Your name"></label>
+        <label><span>Email</span><input type="email" name="email" placeholder="you@example.com"></label>
+        <label><span>Company</span><input type="text" name="company" placeholder="Company name"></label>
+        <label><span>Product Interest</span><select name="product_interest"><option>Wool Comforters</option><option>Sheepskin Rugs</option><option>Wool Dryer Balls</option><option>Wool Gloves</option><option>Wool Socks</option><option>OEM / ODM Project</option></select></label>
+        <label><span>Quantity</span><input type="text" name="quantity" placeholder="Estimated quantity"></label>
+        <label class="full"><span>Message</span><textarea name="message" rows="5" placeholder="Share your sourcing requirements"></textarea></label>
+        <button class="wh-btn wh-btn-light" type="submit">Submit Inquiry</button>
+    </form>
+    <?php
+}
+
+function woolyhome_b2b_breadcrumbs(): void {
+    if (is_front_page()) {
+        return;
+    }
+    echo '<nav class="wh-breadcrumbs" aria-label="Breadcrumbs"><a href="' . esc_url(home_url('/')) . '">Home</a><span>/</span>';
+    if (is_singular('products')) {
+        echo '<a href="' . esc_url(get_post_type_archive_link('products')) . '">Products</a><span>/</span><span>' . esc_html(get_the_title()) . '</span>';
+    } elseif (is_tax('product-category')) {
+        echo '<a href="' . esc_url(get_post_type_archive_link('products')) . '">Products</a><span>/</span><span>' . esc_html(single_term_title('', false)) . '</span>';
+    } elseif (is_singular('post')) {
+        echo '<a href="' . esc_url(get_permalink(get_option('page_for_posts'))) . '">Blog</a><span>/</span><span>' . esc_html(get_the_title()) . '</span>';
+    } else {
+        echo '<span>' . esc_html(wp_get_document_title()) . '</span>';
+    }
+    echo '</nav>';
+}
+
+function woolyhome_b2b_faq_schema(array $faq): void {
+    if (!$faq || defined('WPSEO_VERSION') || defined('RANK_MATH_VERSION')) {
+        return;
+    }
+    $entities = array();
+    foreach ($faq as $item) {
+        $q = $item['question'] ?? '';
+        $a = $item['answer'] ?? '';
+        if ($q && $a) {
+            $entities[] = array('@type' => 'Question', 'name' => wp_strip_all_tags($q), 'acceptedAnswer' => array('@type' => 'Answer', 'text' => wp_strip_all_tags($a)));
+        }
+    }
+    if ($entities) {
+        echo '<script type="application/ld+json">' . wp_json_encode(array('@context' => 'https://schema.org', '@type' => 'FAQPage', 'mainEntity' => $entities), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) . '</script>';
+    }
+}
+
+function woolyhome_b2b_schema(): void {
+    if (defined('WPSEO_VERSION') || defined('RANK_MATH_VERSION')) {
+        return;
+    }
+    $schema = array(
+        '@context' => 'https://schema.org',
+        '@type'    => 'Organization',
+        'name'     => 'WoolyHome',
+        'url'      => home_url('/'),
+        'email'    => woolyhome_b2b_contact('contact_email'),
+        'telephone'=> woolyhome_b2b_contact('contact_phone'),
+        'address'  => array('@type' => 'PostalAddress', 'addressLocality' => 'ShiJiaZhuang', 'postalCode' => '050000', 'addressCountry' => 'CN'),
+    );
+    echo '<script type="application/ld+json">' . wp_json_encode($schema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) . '</script>';
+
+    if (is_singular('post')) {
+        $article = array('@context' => 'https://schema.org', '@type' => 'Article', 'headline' => get_the_title(), 'datePublished' => get_the_date('c'), 'dateModified' => get_the_modified_date('c'), 'author' => array('@type' => 'Organization', 'name' => 'WoolyHome'));
+        echo '<script type="application/ld+json">' . wp_json_encode($article, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) . '</script>';
+    }
+    if (is_singular('products')) {
+        $product = array('@context' => 'https://schema.org', '@type' => 'Product', 'name' => get_the_title(), 'description' => wp_strip_all_tags(get_the_excerpt() ?: woolyhome_b2b_field('product_short_description', get_the_ID(), 'Natural wool and sheepskin B2B product.')), 'brand' => array('@type' => 'Brand', 'name' => 'WoolyHome'));
+        echo '<script type="application/ld+json">' . wp_json_encode($product, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) . '</script>';
+    }
+
+    if (!is_front_page()) {
+        $items = array(
+            array('@type' => 'ListItem', 'position' => 1, 'name' => 'Home', 'item' => home_url('/')),
+            array('@type' => 'ListItem', 'position' => 2, 'name' => wp_strip_all_tags(wp_get_document_title()), 'item' => esc_url_raw(home_url(add_query_arg(array(), $GLOBALS['wp']->request ?? '')))),
+        );
+        echo '<script type="application/ld+json">' . wp_json_encode(array('@context' => 'https://schema.org', '@type' => 'BreadcrumbList', 'itemListElement' => $items), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) . '</script>';
+    }
+}
+add_action('wp_head', 'woolyhome_b2b_schema', 20);
+
+function woolyhome_b2b_register_acf_fields(): void {
+    if (!function_exists('acf_add_local_field_group')) {
+        return;
+    }
+
+    acf_add_local_field_group(array(
+        'key' => 'group_woolyhome_home',
+        'title' => 'WoolyHome Home Page Fields',
+        'fields' => array(
+            array('key' => 'field_home_hero_title', 'label' => 'Hero Title', 'name' => 'hero_title', 'type' => 'text'),
+            array('key' => 'field_home_hero_subtitle', 'label' => 'Hero Subtitle', 'name' => 'hero_subtitle', 'type' => 'textarea'),
+            array('key' => 'field_home_hero_image', 'label' => 'Hero Image', 'name' => 'hero_image', 'type' => 'image', 'return_format' => 'array'),
+            array('key' => 'field_home_primary_text', 'label' => 'Primary Button Text', 'name' => 'hero_primary_button_text', 'type' => 'text'),
+            array('key' => 'field_home_primary_link', 'label' => 'Primary Button Link', 'name' => 'hero_primary_button_link', 'type' => 'url'),
+            array('key' => 'field_home_secondary_text', 'label' => 'Secondary Button Text', 'name' => 'hero_secondary_button_text', 'type' => 'text'),
+            array('key' => 'field_home_secondary_link', 'label' => 'Secondary Button Link', 'name' => 'hero_secondary_button_link', 'type' => 'url'),
+            array('key' => 'field_home_product_categories', 'label' => 'Product Categories', 'name' => 'product_categories', 'type' => 'taxonomy', 'taxonomy' => 'product-category', 'field_type' => 'multi_select', 'return_format' => 'object'),
+            array('key' => 'field_home_why_points', 'label' => 'Why Points', 'name' => 'why_points', 'type' => 'repeater', 'sub_fields' => array(
+                array('key' => 'field_home_why_title', 'label' => 'Title', 'name' => 'title', 'type' => 'text'),
+                array('key' => 'field_home_why_text', 'label' => 'Text', 'name' => 'text', 'type' => 'textarea'),
+            )),
+            array('key' => 'field_home_oem_section', 'label' => 'OEM Section Text', 'name' => 'oem_section', 'type' => 'textarea'),
+            array('key' => 'field_home_factory_section', 'label' => 'Factory Section Text', 'name' => 'factory_section', 'type' => 'textarea'),
+            array('key' => 'field_home_quality_section', 'label' => 'Quality Section Text', 'name' => 'quality_section', 'type' => 'textarea'),
+            array('key' => 'field_home_buyer_types', 'label' => 'Buyer Types', 'name' => 'buyer_types', 'type' => 'repeater', 'sub_fields' => array(
+                array('key' => 'field_home_buyer_title', 'label' => 'Title', 'name' => 'title', 'type' => 'text'),
+                array('key' => 'field_home_buyer_text', 'label' => 'Text', 'name' => 'text', 'type' => 'textarea'),
+            )),
+            array('key' => 'field_home_selected_products', 'label' => 'Selected Featured Products', 'name' => 'selected_featured_products', 'type' => 'relationship', 'post_type' => array('products'), 'return_format' => 'object'),
+            array('key' => 'field_home_form_shortcode', 'label' => 'Inquiry Form Shortcode', 'name' => 'inquiry_form_shortcode', 'type' => 'textarea'),
+            array('key' => 'field_home_blog_preview', 'label' => 'Blog Preview Settings', 'name' => 'blog_preview_settings', 'type' => 'textarea'),
+        ),
+        'location' => array(array(array('param' => 'page_type', 'operator' => '==', 'value' => 'front_page'))),
+    ));
+
+    acf_add_local_field_group(array(
+        'key' => 'group_woolyhome_products',
+        'title' => 'WoolyHome Product Fields',
+        'fields' => array(
+            array('key' => 'field_product_short_description', 'label' => 'Short Description', 'name' => 'product_short_description', 'type' => 'textarea'),
+            array('key' => 'field_product_main_image', 'label' => 'Main Image', 'name' => 'product_main_image', 'type' => 'image', 'return_format' => 'array'),
+            array('key' => 'field_product_gallery', 'label' => 'Gallery', 'name' => 'product_gallery', 'type' => 'gallery', 'return_format' => 'array'),
+            array('key' => 'field_product_key_features', 'label' => 'Key Features', 'name' => 'key_features', 'type' => 'repeater', 'sub_fields' => array(array('key' => 'field_product_key_feature', 'label' => 'Feature', 'name' => 'feature', 'type' => 'text'))),
+            array('key' => 'field_product_specifications', 'label' => 'Specifications', 'name' => 'specifications', 'type' => 'repeater', 'sub_fields' => array(array('key' => 'field_product_spec_label', 'label' => 'Label', 'name' => 'label', 'type' => 'text'), array('key' => 'field_product_spec_value', 'label' => 'Value', 'name' => 'value', 'type' => 'text'))),
+            array('key' => 'field_product_materials', 'label' => 'Materials', 'name' => 'materials', 'type' => 'textarea'),
+            array('key' => 'field_product_sizes', 'label' => 'Sizes', 'name' => 'sizes', 'type' => 'textarea'),
+            array('key' => 'field_product_custom_options', 'label' => 'Custom Options', 'name' => 'custom_options', 'type' => 'textarea'),
+            array('key' => 'field_product_packaging_options', 'label' => 'Packaging Options', 'name' => 'packaging_options', 'type' => 'textarea'),
+            array('key' => 'field_product_applications', 'label' => 'Applications', 'name' => 'applications', 'type' => 'textarea'),
+            array('key' => 'field_product_faq', 'label' => 'FAQ', 'name' => 'faq', 'type' => 'repeater', 'sub_fields' => array(array('key' => 'field_product_faq_q', 'label' => 'Question', 'name' => 'question', 'type' => 'text'), array('key' => 'field_product_faq_a', 'label' => 'Answer', 'name' => 'answer', 'type' => 'textarea'))),
+            array('key' => 'field_product_inquiry_cta', 'label' => 'Inquiry CTA', 'name' => 'inquiry_cta', 'type' => 'textarea'),
+        ),
+        'location' => array(array(array('param' => 'post_type', 'operator' => '==', 'value' => 'products'))),
+    ));
+
+    acf_add_local_field_group(array(
+        'key' => 'group_woolyhome_page_modules',
+        'title' => 'WoolyHome Page Module Fields',
+        'fields' => array(
+            array('key' => 'field_page_banner_title', 'label' => 'Banner Title', 'name' => 'banner_title', 'type' => 'text'),
+            array('key' => 'field_page_banner_subtitle', 'label' => 'Banner Subtitle', 'name' => 'banner_subtitle', 'type' => 'textarea'),
+            array('key' => 'field_page_banner_image', 'label' => 'Banner Image', 'name' => 'banner_image', 'type' => 'image', 'return_format' => 'array'),
+            array('key' => 'field_page_section_images', 'label' => 'Section Images', 'name' => 'section_images', 'type' => 'gallery', 'return_format' => 'array'),
+            array('key' => 'field_page_section_text', 'label' => 'Section Text', 'name' => 'section_text', 'type' => 'wysiwyg'),
+            array('key' => 'field_page_faq', 'label' => 'FAQ', 'name' => 'faq', 'type' => 'repeater', 'sub_fields' => array(array('key' => 'field_page_faq_q', 'label' => 'Question', 'name' => 'question', 'type' => 'text'), array('key' => 'field_page_faq_a', 'label' => 'Answer', 'name' => 'answer', 'type' => 'textarea'))),
+            array('key' => 'field_page_cta', 'label' => 'CTA Text', 'name' => 'cta', 'type' => 'textarea'),
+            array('key' => 'field_page_form_shortcode', 'label' => 'Form Shortcode', 'name' => 'form_shortcode', 'type' => 'textarea'),
+        ),
+        'location' => array(array(array('param' => 'post_type', 'operator' => '==', 'value' => 'page')), array(array('param' => 'post_type', 'operator' => '==', 'value' => 'post'))),
+    ));
+}
+add_action('acf/init', 'woolyhome_b2b_register_acf_fields');
