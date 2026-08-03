@@ -18,7 +18,7 @@ get_template_part('template-parts/components/page-hero', null, array(
         <div class="wh-category-grid">
             <?php foreach (woolyhome_b2b_demo_categories() as $cat) : ?>
                 <article class="wh-category-card">
-                    <?php echo woolyhome_b2b_placeholder('Product category image', 'wh-card-image'); ?>
+                    <?php echo woolyhome_b2b_placeholder($cat['name'] . ' category image', 'wh-card-image'); ?>
                     <div class="wh-card-body">
                         <h3><?php echo esc_html($cat['name']); ?></h3>
                         <p><?php echo esc_html($cat['desc']); ?></p>

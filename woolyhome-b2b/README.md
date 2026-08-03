@@ -38,6 +38,20 @@ Use WordPress admin:
 - Customizer > WoolyHome Contact & Forms: contact info, Chinese link, inquiry form shortcode, newsletter shortcode.
 - ACF fields: page banners, home modules, product details, FAQ, CTA, and form shortcode.
 
+## Automatic Page Setup
+
+The theme safely creates the basic website pages once:
+
+- Home
+- Products
+- OEM / ODM
+- Factory
+- Quality Control
+- Blog
+- Contact
+
+It sets Home as the front page, Blog as the posts page, creates product categories, and creates a primary menu. Existing pages are reused and not overwritten.
+
 ## Demo Fallback Content
 
 The theme displays demo fallback cards when there are no Products or Posts yet:
@@ -58,12 +72,30 @@ The theme does not automatically create posts or pages on activation, so it will
 
 ## Replace Images
 
-V0 uses CSS placeholder panels when images are not selected. Replace images in:
+V0 includes local SVG default visuals in `assets/images/`. The front end will not show text placeholders. Replace images in:
 
-- Home page ACF: `hero_image`
-- Page ACF: `banner_image`, `section_images`
-- Product ACF: `product_main_image`, `product_gallery`
-- Blog Featured Image
+- Home hero image: edit the Home page ACF field `hero_image`.
+- Home hero title/subtitle/buttons: edit `hero_title`, `hero_subtitle`, `hero_primary_button_text`, `hero_primary_button_link`, `hero_secondary_button_text`, `hero_secondary_button_link`.
+- Product category images: V0 uses local default SVGs. For fully editable taxonomy images, add ACF fields to Product Categories in a future version.
+- OEM page image: edit the OEM / ODM page ACF fields `banner_image` and `section_images`.
+- Factory page image: edit the Factory page ACF fields `banner_image` and `section_images`.
+- Quality Control page image: edit the Quality Control page ACF fields `banner_image` and `section_images`.
+- Contact page image: edit the Contact page ACF field `banner_image`.
+- Products: edit each Products CPT item fields `product_main_image` and `product_gallery`.
+- Blog: edit each post Featured Image.
+
+If ACF is not installed, replace the default SVG files directly:
+
+- `assets/images/hero-wool-home.svg`
+- `assets/images/sheepskin-rugs.svg`
+- `assets/images/wool-comforters.svg`
+- `assets/images/wool-dryer-balls.svg`
+- `assets/images/wool-gloves.svg`
+- `assets/images/wool-socks.svg`
+- `assets/images/oem-packaging.svg`
+- `assets/images/factory-preview.svg`
+- `assets/images/quality-control.svg`
+- `assets/images/contact-bg.svg`
 
 ## Form Replacement
 
@@ -71,6 +103,11 @@ The built-in form is only a visual placeholder. Add a Contact Form 7 or Web3Form
 
 - Customizer > WoolyHome Contact & Forms > Inquiry Form Shortcode
 - Or page-level ACF field `form_shortcode`
+
+Contact page form replacement:
+
+- Edit Contact page ACF field `form_shortcode`, or
+- Use Customizer > WoolyHome Contact & Forms > Inquiry Form Shortcode for the global fallback.
 
 ## Notes for Future Development
 

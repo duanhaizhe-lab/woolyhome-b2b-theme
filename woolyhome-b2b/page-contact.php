@@ -24,7 +24,7 @@ get_template_part('template-parts/components/page-hero', null, array(
                 <article class="wh-mini-card"><h3>Address</h3><p><?php echo esc_html(woolyhome_b2b_contact('contact_address')); ?></p></article>
             </div>
         </div>
-        <div id="inquiry"><?php woolyhome_b2b_render_inquiry_form(woolyhome_b2b_field('form_shortcode', get_the_ID(), '')); ?></div>
+        <div id="inquiry" class="wh-contact-form-panel"><?php woolyhome_b2b_render_inquiry_form(woolyhome_b2b_field('form_shortcode', get_the_ID(), '')); ?></div>
     </div>
 </section>
 <?php

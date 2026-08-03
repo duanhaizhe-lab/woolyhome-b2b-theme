@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 650" role="img" aria-label="Wool gloves visual">
+  <defs><linearGradient id="a" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#fbf8f2"/><stop offset=".55" stop-color="#e9f3f6"/><stop offset="1" stop-color="#e7d8c3"/></linearGradient></defs>
+  <rect width="900" height="650" fill="url(#a)"/>
+  <path d="M295 430V238c0-34 52-34 52 0v104h18V205c0-38 58-38 58 0v136h18V215c0-36 56-36 56 0v142h18V250c0-32 50-32 50 0v181c0 89-58 139-135 139-78 0-135-50-135-140z" fill="#d7b896"/>
+  <path d="M325 455h214v78H325z" fill="#f6eee3"/>
+  <path d="M340 480h184" stroke="#8f6d52" stroke-opacity=".22" stroke-width="9"/>
+</svg>

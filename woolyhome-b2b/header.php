@@ -24,20 +24,33 @@
         </div>
         <button class="wh-menu-toggle" type="button" aria-label="<?php esc_attr_e('Open menu', 'woolyhome-b2b'); ?>" aria-expanded="false" data-menu-toggle><span></span><span></span><span></span></button>
         <nav class="wh-primary-nav" aria-label="<?php esc_attr_e('Primary navigation', 'woolyhome-b2b'); ?>" data-primary-nav>
-            <a href="<?php echo esc_url(home_url('/')); ?>">Home</a>
-            <div class="wh-nav-dropdown">
-                <a href="<?php echo esc_url(get_post_type_archive_link('products') ?: home_url('/products/')); ?>">Products</a>
-                <div class="wh-nav-panel">
-                    <?php foreach (woolyhome_b2b_demo_categories() as $cat) : ?>
-                        <a href="<?php echo esc_url(home_url('/product-category/' . $cat['slug'] . '/')); ?>"><?php echo esc_html($cat['name']); ?></a>
-                    <?php endforeach; ?>
+            <?php
+            if (has_nav_menu('primary')) {
+                wp_nav_menu(array(
+                    'theme_location' => 'primary',
+                    'container'      => false,
+                    'items_wrap'     => '<ul class="wh-menu">%3$s</ul>',
+                    'depth'          => 1,
+                ));
+            } else {
+                ?>
+                <a href="<?php echo esc_url(home_url('/')); ?>">Home</a>
+                <div class="wh-nav-dropdown">
+                    <a href="<?php echo esc_url(get_post_type_archive_link('products') ?: home_url('/products/')); ?>">Products</a>
+                    <div class="wh-nav-panel">
+                        <?php foreach (woolyhome_b2b_demo_categories() as $cat) : ?>
+                            <a href="<?php echo esc_url(home_url('/product-category/' . $cat['slug'] . '/')); ?>"><?php echo esc_html($cat['name']); ?></a>
+                        <?php endforeach; ?>
+                    </div>
                 </div>
-            </div>
-            <a href="<?php echo esc_url(home_url('/oem-odm/')); ?>">OEM / ODM</a>
-            <a href="<?php echo esc_url(home_url('/factory/')); ?>">Factory</a>
-            <a href="<?php echo esc_url(home_url('/quality-control/')); ?>">Quality Control</a>
-            <a href="<?php echo esc_url(get_permalink(get_option('page_for_posts')) ?: home_url('/blog/')); ?>">Blog</a>
-            <a href="<?php echo esc_url(home_url('/contact/')); ?>">Contact</a>
+                <a href="<?php echo esc_url(home_url('/oem-odm/')); ?>">OEM / ODM</a>
+                <a href="<?php echo esc_url(home_url('/factory/')); ?>">Factory</a>
+                <a href="<?php echo esc_url(home_url('/quality-control/')); ?>">Quality Control</a>
+                <a href="<?php echo esc_url(get_permalink(get_option('page_for_posts')) ?: home_url('/blog/')); ?>">Blog</a>
+                <a href="<?php echo esc_url(home_url('/contact/')); ?>">Contact</a>
+                <?php
+            }
+            ?>
         </nav>
         <div class="wh-header-actions">
             <div class="wh-language"><a href="<?php echo esc_url(home_url('/')); ?>">EN</a><span>/</span><a href="<?php echo esc_url(woolyhome_b2b_contact('cn_language_link')); ?>">中文</a></div>

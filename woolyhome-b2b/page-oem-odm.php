@@ -15,7 +15,7 @@ get_template_part('template-parts/components/page-hero', null, array(
 <section class="wh-section">
     <div class="wh-container wh-split">
         <?php echo woolyhome_b2b_placeholder('OEM packaging image', 'wh-tall-image'); ?>
-        <div><p class="wh-eyebrow">Custom Options</p><h2>Build Wool Products Around Your Market</h2><p>Support for custom size, material, wool filling, color, woven label, hangtag, retail package, carton mark, and product set development.</p><div class="wh-option-grid"><span>Private Label</span><span>Packaging</span><span>Sample Development</span><span>Bulk Order Planning</span><span>Material Selection</span><span>Export Support</span></div></div>
+        <div><p class="wh-eyebrow">Custom Options</p><h2>Build Wool Products Around Your Market</h2><p>Support for custom size, private label, custom packaging, sample development, bulk production, and export-ready order planning.</p><div class="wh-option-grid"><span>Custom Size</span><span>Private Label</span><span>Custom Packaging</span><span>Sample Development</span><span>Bulk Production</span><span>Export Support</span></div></div>
     </div>
 </section>
 <section class="wh-section wh-section-blue">

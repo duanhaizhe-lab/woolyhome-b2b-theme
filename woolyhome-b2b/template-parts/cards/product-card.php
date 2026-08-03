@@ -24,7 +24,7 @@ if ($product instanceof WP_Post) {
 }
 ?>
 <article class="wh-product-card">
-    <?php echo woolyhome_b2b_image($image, 'Product image', 'wh-product-image'); ?>
+    <?php echo woolyhome_b2b_image($image, $title . ' image', 'wh-product-image', 'large', $category . ' ' . $title); ?>
     <span class="wh-product-meta"><?php echo esc_html($category); ?></span>
     <h3><?php echo esc_html($title); ?></h3>
     <p><?php echo esc_html(wp_trim_words(wp_strip_all_tags($desc), 24)); ?></p>

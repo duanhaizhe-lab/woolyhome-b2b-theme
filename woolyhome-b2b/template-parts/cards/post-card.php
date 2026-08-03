@@ -24,7 +24,7 @@ if ($post_obj instanceof WP_Post) {
 }
 ?>
 <article class="wh-post-card">
-    <?php echo woolyhome_b2b_image($image, 'Blog featured image', 'wh-post-image'); ?>
+    <?php echo woolyhome_b2b_image($image, 'Blog featured image', 'wh-post-image', 'large', 'blog ' . $title); ?>
     <span class="wh-post-meta"><?php echo esc_html($meta); ?></span>
     <h3><?php echo esc_html($title); ?></h3>
     <p><?php echo esc_html(wp_trim_words(wp_strip_all_tags($excerpt), 24)); ?></p>

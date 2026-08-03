@@ -16,7 +16,7 @@ get_template_part('template-parts/components/page-hero', null, array(
     <div class="wh-container">
         <div class="wh-section-heading center"><p class="wh-eyebrow">Production Steps</p><h2>Practical Manufacturing Flow</h2></div>
         <div class="wh-process-grid">
-            <?php foreach (array('Material Preparation', 'Cutting & Sewing', 'Filling & Finishing', 'Quality Review', 'Packing', 'Export Preparation') as $step) : ?>
+            <?php foreach (array('Material Preparation', 'Cutting & Sewing', 'Filling & Finishing', 'Packing', 'Workshop Gallery', 'Export Preparation') as $step) : ?>
                 <article class="wh-process-card"><?php echo woolyhome_b2b_placeholder('Factory clean production image', 'wh-process-image'); ?><h3><?php echo esc_html($step); ?></h3><p>Clean and organized workflow for B2B wool product orders.</p></article>
             <?php endforeach; ?>
         </div>

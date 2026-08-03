@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 650" role="img" aria-label="Natural sheepskin rugs visual">
+  <defs><linearGradient id="a" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#fbf8f2"/><stop offset=".55" stop-color="#e8f2f5"/><stop offset="1" stop-color="#d7b896"/></linearGradient><pattern id="p" width="32" height="32" patternUnits="userSpaceOnUse"><path d="M0 16c8-7 16-7 24 0s16 7 24 0" fill="none" stroke="#7b5b45" stroke-opacity=".12" stroke-width="2"/></pattern></defs>
+  <rect width="900" height="650" fill="url(#a)"/><rect width="900" height="650" fill="url(#p)" opacity=".65"/>
+  <path d="M185 460c55-160 136-244 259-252 118-8 208 58 263 200 38 100-68 166-231 176-184 11-328-15-291-124z" fill="#fff9ef"/>
+  <path d="M260 434c30-92 88-144 173-151 98-8 164 48 202 136 23 52-48 91-160 99-127 9-244-21-215-84z" fill="#e5d0b5" opacity=".48"/>
+</svg>
