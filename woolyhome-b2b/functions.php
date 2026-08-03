@@ -9,7 +9,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-define('WOOLYHOME_B2B_VERSION', '0.1.2');
+define('WOOLYHOME_B2B_VERSION', '0.1.3');
 define('WOOLYHOME_B2B_DIR', get_template_directory());
 define('WOOLYHOME_B2B_URI', get_template_directory_uri());
 
@@ -24,6 +24,8 @@ function woolyhome_b2b_setup(): void {
         'flex-width'  => true,
     ));
     add_theme_support('align-wide');
+    add_theme_support('editor-styles');
+    add_editor_style('assets/css/main.css');
     register_nav_menus(array(
         'primary' => __('Primary Menu', 'woolyhome-b2b'),
         'footer'  => __('Footer Menu', 'woolyhome-b2b'),
@@ -473,3 +475,4 @@ function woolyhome_b2b_schema(): void {
 add_action('wp_head', 'woolyhome_b2b_schema', 20);
 
 require_once WOOLYHOME_B2B_DIR . '/includes/acf-fields.php';
+require_once WOOLYHOME_B2B_DIR . '/includes/acf-blocks.php';

@@ -32,10 +32,12 @@ Deployment target: upload the contents of this folder into `wp-content/themes/wo
 Local ACF field groups are registered in:
 
 - `includes/acf-fields.php`
+- `includes/acf-blocks.php`
 
 The file is loaded from `functions.php` with:
 
 - `require_once WOOLYHOME_B2B_DIR . '/includes/acf-fields.php';`
+- `require_once WOOLYHOME_B2B_DIR . '/includes/acf-blocks.php';`
 
 The registration function is attached to both `acf/init` and `acf/include_fields`, with an internal one-time guard to avoid duplicate registration.
 
@@ -46,6 +48,24 @@ The Home field group uses these location rules:
 - The page with slug `home`, when it exists
 
 After deploying, reopen `Pages > Home > Edit` to see the Home field group below the editor.
+
+## Visual Home Editing With ACF Blocks
+
+When ACF Blocks are available, the theme registers these Gutenberg blocks:
+
+- WoolyHome Hero Block
+- Product Categories Block
+- Why WoolyHome Block
+- OEM / ODM Block
+- Factory Preview Block
+- Quality Control Block
+- Inquiry CTA Block
+- Blog Preview Block
+- Contact Info Block
+
+Open `Pages > Home > Edit`, click the Gutenberg `+` button, and search for `WoolyHome`. Each section can be inserted, edited, duplicated, removed, and reordered like a normal block.
+
+The original page-level ACF fields remain available. If no WoolyHome blocks exist in the Home page content, `front-page.php` still renders the fallback homepage sections with default content and default images. If the Home page still contains only `WoolyHome B2B manufacturer home page.`, the theme safely replaces that demo sentence with the default WoolyHome block stack once ACF Blocks are available.
 
 ## Content Management
 

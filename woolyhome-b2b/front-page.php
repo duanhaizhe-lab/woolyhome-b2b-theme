@@ -8,6 +8,16 @@
 get_header();
 
 $home_id = get_the_ID();
+
+if (function_exists('woolyhome_b2b_has_home_blocks') && woolyhome_b2b_has_home_blocks(get_post())) {
+    while (have_posts()) {
+        the_post();
+        the_content();
+    }
+    get_footer();
+    return;
+}
+
 $hero_eyebrow = woolyhome_b2b_field('hero_eyebrow', $home_id, 'Soft Natural Wool Lifestyle B2B Manufacturer');
 $hero_title = woolyhome_b2b_field('hero_title', $home_id, 'Natural Wool & Sheepskin Products for Global B2B Buyers');
 $hero_subtitle = woolyhome_b2b_field('hero_subtitle', $home_id, 'WoolyHome supplies soft, natural wool and sheepskin products for brands, wholesalers, retailers, hotels, and private label projects worldwide.');
