@@ -14,6 +14,7 @@ get_template_part('template-parts/components/page-hero', null, array(
 ?>
 <section class="wh-section">
     <div class="wh-container">
+        <?php woolyhome_b2b_render_page_section_content(get_the_ID()); ?>
         <div class="wh-section-heading center"><p class="wh-eyebrow">Production Steps</p><h2>Practical Manufacturing Flow</h2></div>
         <div class="wh-process-grid">
             <?php foreach (array('Material Preparation', 'Cutting & Sewing', 'Filling & Finishing', 'Packing', 'Workshop Gallery', 'Export Preparation') as $step) : ?>

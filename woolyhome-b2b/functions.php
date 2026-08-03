@@ -9,7 +9,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-define('WOOLYHOME_B2B_VERSION', '0.1.0');
+define('WOOLYHOME_B2B_VERSION', '0.1.1');
 define('WOOLYHOME_B2B_DIR', get_template_directory());
 define('WOOLYHOME_B2B_URI', get_template_directory_uri());
 
@@ -117,6 +117,15 @@ function woolyhome_b2b_contact(string $key): string {
     return (string) get_theme_mod($key, $defaults[$key] ?? '');
 }
 
+function woolyhome_b2b_acf_admin_notice(): void {
+    if (function_exists('acf_add_local_field_group')) {
+        return;
+    }
+
+    echo '<div class="notice notice-warning"><p><strong>WoolyHome B2B:</strong> Install and activate Advanced Custom Fields to edit Home sections, page banners, product fields, FAQ, CTA text, and form shortcodes in the WordPress admin. The front end will continue to use theme fallback content until ACF is installed.</p></div>';
+}
+add_action('admin_notices', 'woolyhome_b2b_acf_admin_notice');
+
 function woolyhome_b2b_field(string $key, $post_id = false, $default = null) {
     if (function_exists('get_field')) {
         $value = get_field($key, $post_id);
@@ -125,6 +134,17 @@ function woolyhome_b2b_field(string $key, $post_id = false, $default = null) {
         }
     }
     return $default;
+}
+
+function woolyhome_b2b_textarea_lines($value, array $default = array()): array {
+    if (is_array($value)) {
+        return $value;
+    }
+    if (!is_string($value) || trim($value) === '') {
+        return $default;
+    }
+    $lines = array_filter(array_map('trim', preg_split('/\r\n|\r|\n/', $value)));
+    return $lines ?: $default;
 }
 
 function woolyhome_b2b_default_image_file(string $context = ''): string {
@@ -325,6 +345,23 @@ function woolyhome_b2b_render_inquiry_form($shortcode = ''): void {
     <?php
 }
 
+function woolyhome_b2b_render_page_section_content(int $post_id): void {
+    $section_text = woolyhome_b2b_field('section_text', $post_id, '');
+    $section_images = woolyhome_b2b_field('section_images', $post_id, array());
+
+    if ($section_text) {
+        echo '<div class="wh-acf-section-text wh-rich-content">' . wp_kses_post($section_text) . '</div>';
+    }
+
+    if (is_array($section_images) && $section_images) {
+        echo '<div class="wh-section-gallery">';
+        foreach ($section_images as $image) {
+            echo woolyhome_b2b_image($image, 'Section image', 'wh-gallery-image');
+        }
+        echo '</div>';
+    }
+}
+
 function woolyhome_b2b_breadcrumbs(): void {
     if (is_front_page()) {
         return;
@@ -402,6 +439,7 @@ function woolyhome_b2b_register_acf_fields(): void {
         'key' => 'group_woolyhome_home',
         'title' => 'WoolyHome Home Page Fields',
         'fields' => array(
+            array('key' => 'field_home_hero_eyebrow', 'label' => 'Hero Eyebrow', 'name' => 'hero_eyebrow', 'type' => 'text'),
             array('key' => 'field_home_hero_title', 'label' => 'Hero Title', 'name' => 'hero_title', 'type' => 'text'),
             array('key' => 'field_home_hero_subtitle', 'label' => 'Hero Subtitle', 'name' => 'hero_subtitle', 'type' => 'textarea'),
             array('key' => 'field_home_hero_image', 'label' => 'Hero Image', 'name' => 'hero_image', 'type' => 'image', 'return_format' => 'array'),
@@ -409,21 +447,50 @@ function woolyhome_b2b_register_acf_fields(): void {
             array('key' => 'field_home_primary_link', 'label' => 'Primary Button Link', 'name' => 'hero_primary_button_link', 'type' => 'url'),
             array('key' => 'field_home_secondary_text', 'label' => 'Secondary Button Text', 'name' => 'hero_secondary_button_text', 'type' => 'text'),
             array('key' => 'field_home_secondary_link', 'label' => 'Secondary Button Link', 'name' => 'hero_secondary_button_link', 'type' => 'url'),
-            array('key' => 'field_home_product_categories', 'label' => 'Product Categories', 'name' => 'product_categories', 'type' => 'taxonomy', 'taxonomy' => 'product-category', 'field_type' => 'multi_select', 'return_format' => 'object'),
-            array('key' => 'field_home_why_points', 'label' => 'Why Points', 'name' => 'why_points', 'type' => 'repeater', 'sub_fields' => array(
-                array('key' => 'field_home_why_title', 'label' => 'Title', 'name' => 'title', 'type' => 'text'),
-                array('key' => 'field_home_why_text', 'label' => 'Text', 'name' => 'text', 'type' => 'textarea'),
+            array('key' => 'field_home_categories_title', 'label' => 'Product Categories Section Title', 'name' => 'product_categories_title', 'type' => 'text'),
+            array('key' => 'field_home_categories_text', 'label' => 'Product Categories Section Description', 'name' => 'product_categories_text', 'type' => 'textarea'),
+            array('key' => 'field_home_category_cards', 'label' => 'Product Category Cards', 'name' => 'product_category_cards', 'type' => 'repeater', 'sub_fields' => array(
+                array('key' => 'field_home_category_title', 'label' => 'Category Title', 'name' => 'title', 'type' => 'text'),
+                array('key' => 'field_home_category_description', 'label' => 'Category Description', 'name' => 'description', 'type' => 'textarea'),
+                array('key' => 'field_home_category_image', 'label' => 'Category Image', 'name' => 'image', 'type' => 'image', 'return_format' => 'array'),
+                array('key' => 'field_home_category_link', 'label' => 'Category Link', 'name' => 'link', 'type' => 'url'),
             )),
+            array('key' => 'field_home_product_categories', 'label' => 'Product Categories', 'name' => 'product_categories', 'type' => 'taxonomy', 'taxonomy' => 'product-category', 'field_type' => 'multi_select', 'return_format' => 'object'),
+            array('key' => 'field_home_why_section_title', 'label' => 'Why Section Title', 'name' => 'why_section_title', 'type' => 'text'),
+            array('key' => 'field_home_why_section_text', 'label' => 'Why Section Description', 'name' => 'why_section_text', 'type' => 'textarea'),
+            array('key' => 'field_home_why_points', 'label' => 'Why Points', 'name' => 'why_points', 'type' => 'repeater', 'sub_fields' => array(
+                array('key' => 'field_home_why_point_title', 'label' => 'Title', 'name' => 'title', 'type' => 'text'),
+                array('key' => 'field_home_why_point_text', 'label' => 'Text', 'name' => 'text', 'type' => 'textarea'),
+            )),
+            array('key' => 'field_home_oem_title', 'label' => 'OEM Section Title', 'name' => 'oem_section_title', 'type' => 'text'),
             array('key' => 'field_home_oem_section', 'label' => 'OEM Section Text', 'name' => 'oem_section', 'type' => 'textarea'),
+            array('key' => 'field_home_oem_image', 'label' => 'OEM Section Image', 'name' => 'oem_section_image', 'type' => 'image', 'return_format' => 'array'),
+            array('key' => 'field_home_oem_options_text', 'label' => 'OEM Option List', 'name' => 'oem_options_text', 'type' => 'textarea', 'instructions' => 'One option per line.'),
+            array('key' => 'field_home_oem_button_text', 'label' => 'OEM Button Text', 'name' => 'oem_button_text', 'type' => 'text'),
+            array('key' => 'field_home_oem_button_link', 'label' => 'OEM Button Link', 'name' => 'oem_button_link', 'type' => 'url'),
+            array('key' => 'field_home_factory_title', 'label' => 'Factory Section Title', 'name' => 'factory_section_title', 'type' => 'text'),
             array('key' => 'field_home_factory_section', 'label' => 'Factory Section Text', 'name' => 'factory_section', 'type' => 'textarea'),
+            array('key' => 'field_home_factory_image', 'label' => 'Factory Section Image', 'name' => 'factory_section_image', 'type' => 'image', 'return_format' => 'array'),
+            array('key' => 'field_home_factory_steps_text', 'label' => 'Factory Production Steps', 'name' => 'factory_steps_text', 'type' => 'textarea', 'instructions' => 'One step per line.'),
+            array('key' => 'field_home_quality_title', 'label' => 'Quality Section Title', 'name' => 'quality_section_title', 'type' => 'text'),
             array('key' => 'field_home_quality_section', 'label' => 'Quality Section Text', 'name' => 'quality_section', 'type' => 'textarea'),
+            array('key' => 'field_home_quality_image', 'label' => 'Quality Section Image', 'name' => 'quality_section_image', 'type' => 'image', 'return_format' => 'array'),
+            array('key' => 'field_home_quality_steps_text', 'label' => 'Quality Control Steps', 'name' => 'quality_steps_text', 'type' => 'textarea', 'instructions' => 'One step per line.'),
             array('key' => 'field_home_buyer_types', 'label' => 'Buyer Types', 'name' => 'buyer_types', 'type' => 'repeater', 'sub_fields' => array(
                 array('key' => 'field_home_buyer_title', 'label' => 'Title', 'name' => 'title', 'type' => 'text'),
                 array('key' => 'field_home_buyer_text', 'label' => 'Text', 'name' => 'text', 'type' => 'textarea'),
             )),
             array('key' => 'field_home_selected_products', 'label' => 'Selected Featured Products', 'name' => 'selected_featured_products', 'type' => 'relationship', 'post_type' => array('products'), 'return_format' => 'object'),
+            array('key' => 'field_home_inquiry_title', 'label' => 'Inquiry CTA Title', 'name' => 'inquiry_cta_title', 'type' => 'text'),
+            array('key' => 'field_home_inquiry_text', 'label' => 'Inquiry CTA Text', 'name' => 'inquiry_cta_text', 'type' => 'textarea'),
             array('key' => 'field_home_form_shortcode', 'label' => 'Inquiry Form Shortcode', 'name' => 'inquiry_form_shortcode', 'type' => 'textarea'),
+            array('key' => 'field_home_blog_title', 'label' => 'Blog Preview Title', 'name' => 'blog_preview_title', 'type' => 'text'),
+            array('key' => 'field_home_blog_text', 'label' => 'Blog Preview Text', 'name' => 'blog_preview_text', 'type' => 'textarea'),
             array('key' => 'field_home_blog_preview', 'label' => 'Blog Preview Settings', 'name' => 'blog_preview_settings', 'type' => 'textarea'),
+            array('key' => 'field_home_contact_email', 'label' => 'Contact Email', 'name' => 'contact_email', 'type' => 'email'),
+            array('key' => 'field_home_contact_whatsapp', 'label' => 'Contact WhatsApp Link', 'name' => 'contact_whatsapp', 'type' => 'url'),
+            array('key' => 'field_home_contact_phone', 'label' => 'Contact Phone', 'name' => 'contact_phone', 'type' => 'text'),
+            array('key' => 'field_home_contact_address', 'label' => 'Contact Address', 'name' => 'contact_address', 'type' => 'text'),
         ),
         'location' => array(array(array('param' => 'page_type', 'operator' => '==', 'value' => 'front_page'))),
     ));

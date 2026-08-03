@@ -14,7 +14,7 @@ get_template_part('template-parts/components/page-hero', null, array(
 ?>
 <section class="wh-section wh-section-blue">
     <div class="wh-container wh-quality-grid">
-        <div><p class="wh-eyebrow">QC Process</p><h2>Inspection Checklist for B2B Orders</h2><p>Each order can be checked according to product specifications, buyer requirements, packing details, and export needs.</p></div>
+        <div><p class="wh-eyebrow">QC Process</p><h2>Inspection Checklist for B2B Orders</h2><?php woolyhome_b2b_render_page_section_content(get_the_ID()); ?><p>Each order can be checked according to product specifications, buyer requirements, packing details, and export needs.</p></div>
         <div class="wh-quality-panel"><?php echo woolyhome_b2b_placeholder('Quality inspection image', 'wh-quality-image'); ?><ol class="wh-step-list"><li><span>01</span>Raw Material Inspection</li><li><span>02</span>Size Check</li><li><span>03</span>Stitching Check</li><li><span>04</span>Filling Check</li><li><span>05</span>Appearance Check</li><li><span>06</span>Final Packing Inspection</li></ol></div>
     </div>
 </section>

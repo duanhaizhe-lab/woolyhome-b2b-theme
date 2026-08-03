@@ -7,10 +7,11 @@
 ?>
 </main>
 <aside class="wh-floating-contact" aria-label="<?php esc_attr_e('Quick contact', 'woolyhome-b2b'); ?>">
-    <a href="<?php echo esc_url(woolyhome_b2b_contact('contact_whatsapp')); ?>" aria-label="WhatsApp">WA</a>
-    <a href="mailto:<?php echo esc_attr(woolyhome_b2b_contact('contact_email')); ?>" aria-label="Email">@</a>
-    <a href="<?php echo esc_url(woolyhome_b2b_contact('contact_phone_link')); ?>" aria-label="Phone">PH</a>
-    <button type="button" data-back-to-top aria-label="Back to top">UP</button>
+    <a class="wh-float-link" href="<?php echo esc_url(woolyhome_b2b_contact('contact_whatsapp')); ?>" aria-label="WhatsApp" data-tooltip="WhatsApp"><span>WhatsApp</span><strong>W</strong></a>
+    <a class="wh-float-link" href="mailto:<?php echo esc_attr(woolyhome_b2b_contact('contact_email')); ?>" aria-label="Email" data-tooltip="Email"><span>Email</span><strong>@</strong></a>
+    <a class="wh-float-link wh-float-phone" href="<?php echo esc_url(woolyhome_b2b_contact('contact_phone_link')); ?>" aria-label="Phone" data-tooltip="Phone"><span>Phone</span><strong>P</strong></a>
+    <a class="wh-float-link wh-float-quote" href="<?php echo esc_url(home_url('/contact/#inquiry')); ?>" aria-label="Request a Quote" data-tooltip="Quote"><span>Quote</span><strong>Q</strong></a>
+    <button class="wh-float-link wh-float-top" type="button" data-back-to-top aria-label="Back to top" data-tooltip="Back to Top"><span>Top</span><strong>↑</strong></button>
 </aside>
 <footer class="wh-site-footer">
     <div class="wh-container wh-footer-grid">

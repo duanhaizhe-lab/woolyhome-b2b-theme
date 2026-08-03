@@ -17,6 +17,7 @@ get_template_part('template-parts/components/page-hero', null, array(
         <div>
             <p class="wh-eyebrow">Contact Info</p>
             <h2>Talk with WoolyHome</h2>
+            <?php woolyhome_b2b_render_page_section_content(get_the_ID()); ?>
             <div class="wh-value-cards">
                 <article class="wh-mini-card"><h3>Email</h3><p><a href="mailto:<?php echo esc_attr(woolyhome_b2b_contact('contact_email')); ?>"><?php echo esc_html(woolyhome_b2b_contact('contact_email')); ?></a></p></article>
                 <article class="wh-mini-card"><h3>WhatsApp</h3><p><a href="<?php echo esc_url(woolyhome_b2b_contact('contact_whatsapp')); ?>"><?php echo esc_html(woolyhome_b2b_contact('contact_phone')); ?></a></p></article>

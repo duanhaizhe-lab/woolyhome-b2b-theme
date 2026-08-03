@@ -5,15 +5,18 @@
  * @package WoolyHome_B2B
  */
 
+$page_id = is_page() ? get_the_ID() : 0;
 get_header();
 get_template_part('template-parts/components/page-hero', null, array(
     'label' => 'Products',
-    'title' => 'Wool & Sheepskin Product Collections',
-    'subtitle' => 'Explore natural wool and sheepskin product directions for wholesale, private label, hospitality, and OEM / ODM sourcing.',
+    'title' => $page_id ? woolyhome_b2b_field('banner_title', $page_id, 'Wool & Sheepskin Product Collections') : 'Wool & Sheepskin Product Collections',
+    'subtitle' => $page_id ? woolyhome_b2b_field('banner_subtitle', $page_id, 'Explore natural wool and sheepskin product directions for wholesale, private label, hospitality, and OEM / ODM sourcing.') : 'Explore natural wool and sheepskin product directions for wholesale, private label, hospitality, and OEM / ODM sourcing.',
+    'image' => $page_id ? woolyhome_b2b_field('banner_image', $page_id, null) : null,
 ));
 ?>
 <section class="wh-section">
     <div class="wh-container">
+        <?php if ($page_id) { woolyhome_b2b_render_page_section_content($page_id); } ?>
         <div class="wh-section-heading center"><p class="wh-eyebrow">Product Categories</p><h2>Browse by Product Range</h2></div>
         <div class="wh-category-grid">
             <?php foreach (woolyhome_b2b_demo_categories() as $cat) : ?>
