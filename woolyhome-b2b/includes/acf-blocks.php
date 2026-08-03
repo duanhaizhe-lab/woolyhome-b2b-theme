@@ -66,6 +66,32 @@ function woolyhome_b2b_register_acf_blocks(): void {
 }
 add_action('acf/init', 'woolyhome_b2b_register_acf_blocks');
 
+function woolyhome_b2b_register_native_home_blocks(): void {
+    if (function_exists('acf_register_block_type')) {
+        return;
+    }
+
+    wp_register_script(
+        'woolyhome-b2b-editor-blocks',
+        WOOLYHOME_B2B_URI . '/assets/js/editor-blocks.js',
+        array('wp-blocks', 'wp-element', 'wp-components', 'wp-block-editor', 'wp-i18n'),
+        WOOLYHOME_B2B_VERSION,
+        true
+    );
+
+    foreach (woolyhome_b2b_native_home_block_names() as $block_name) {
+        register_block_type($block_name, array(
+            'editor_script'   => 'woolyhome-b2b-editor-blocks',
+            'render_callback' => 'woolyhome_b2b_render_native_home_block',
+            'attributes'      => woolyhome_b2b_native_home_block_attributes(),
+            'supports'        => array('align' => false, 'anchor' => true),
+        ));
+    }
+
+    woolyhome_b2b_seed_home_blocks_once();
+}
+add_action('init', 'woolyhome_b2b_register_native_home_blocks', 20);
+
 function woolyhome_b2b_acf_blocks_admin_notice(): void {
     if (!is_admin() || !function_exists('acf_add_local_field_group') || function_exists('acf_register_block_type')) {
         return;
@@ -76,17 +102,56 @@ function woolyhome_b2b_acf_blocks_admin_notice(): void {
 add_action('admin_notices', 'woolyhome_b2b_acf_blocks_admin_notice');
 
 function woolyhome_b2b_home_block_names(): array {
+    if (function_exists('acf_register_block_type')) {
+        return array(
+            'acf/woolyhome-hero',
+            'acf/woolyhome-product-categories',
+            'acf/woolyhome-why',
+            'acf/woolyhome-oem',
+            'acf/woolyhome-factory',
+            'acf/woolyhome-quality',
+            'acf/woolyhome-inquiry-cta',
+            'acf/woolyhome-blog-preview',
+            'acf/woolyhome-contact-info',
+        );
+    }
+
+    return woolyhome_b2b_native_home_block_names();
+}
+
+function woolyhome_b2b_native_home_block_names(): array {
     return array(
-        'acf/woolyhome-hero',
-        'acf/woolyhome-product-categories',
-        'acf/woolyhome-why',
-        'acf/woolyhome-oem',
-        'acf/woolyhome-factory',
-        'acf/woolyhome-quality',
-        'acf/woolyhome-inquiry-cta',
-        'acf/woolyhome-blog-preview',
-        'acf/woolyhome-contact-info',
+        'woolyhome/hero',
+        'woolyhome/product-categories',
+        'woolyhome/why',
+        'woolyhome/oem',
+        'woolyhome/factory',
+        'woolyhome/quality',
+        'woolyhome/inquiry-cta',
+        'woolyhome/blog-preview',
+        'woolyhome/contact-info',
     );
+}
+
+function woolyhome_b2b_native_home_block_attributes(): array {
+    $keys = array(
+        'hero_eyebrow', 'hero_title', 'hero_subtitle', 'hero_image', 'hero_primary_button_text', 'hero_primary_button_link', 'hero_secondary_button_text', 'hero_secondary_button_link',
+        'product_categories_section_title', 'product_categories_section_text', 'product_category_cards',
+        'why_title', 'why_text', 'why_points',
+        'oem_title', 'oem_text', 'oem_image', 'oem_options', 'oem_button_text', 'oem_button_link',
+        'factory_title', 'factory_text', 'factory_image', 'factory_steps',
+        'quality_title', 'quality_text', 'quality_image', 'quality_steps',
+        'inquiry_title', 'inquiry_text', 'inquiry_form_shortcode',
+        'blog_preview_title', 'blog_preview_text',
+        'contact_email', 'contact_phone', 'contact_whatsapp', 'contact_address',
+    );
+
+    $attributes = array();
+    foreach ($keys as $key) {
+        $attributes[$key] = array('type' => 'string', 'default' => '');
+    }
+
+    return $attributes;
 }
 
 function woolyhome_b2b_home_block_content(): string {
@@ -100,10 +165,6 @@ function woolyhome_b2b_home_block_content(): string {
 
 function woolyhome_b2b_seed_home_blocks_once(): void {
     if (get_option('woolyhome_b2b_home_blocks_seeded')) {
-        return;
-    }
-
-    if (!function_exists('acf_register_block_type')) {
         return;
     }
 
@@ -139,7 +200,7 @@ function woolyhome_b2b_seed_home_blocks_once(): void {
 }
 
 function woolyhome_b2b_has_home_blocks($post): bool {
-    if (!function_exists('acf_register_block_type') || !$post instanceof WP_Post) {
+    if (!$post instanceof WP_Post) {
         return false;
     }
 
@@ -150,7 +211,7 @@ function woolyhome_b2b_has_home_blocks($post): bool {
 function woolyhome_b2b_contains_home_block(array $blocks): bool {
     foreach ($blocks as $block) {
         $name = $block['blockName'] ?? '';
-        if (is_string($name) && strpos($name, 'acf/woolyhome-') === 0) {
+        if (is_string($name) && (strpos($name, 'acf/woolyhome-') === 0 || strpos($name, 'woolyhome/') === 0)) {
             return true;
         }
 
@@ -163,7 +224,58 @@ function woolyhome_b2b_contains_home_block(array $blocks): bool {
 }
 
 function woolyhome_b2b_block_field(string $key, $default = null) {
+    global $woolyhome_b2b_current_block_attrs;
+
+    if (is_array($woolyhome_b2b_current_block_attrs) && array_key_exists($key, $woolyhome_b2b_current_block_attrs)) {
+        $value = $woolyhome_b2b_current_block_attrs[$key];
+        if ($value !== null && $value !== false && $value !== '') {
+            return $value;
+        }
+    }
+
     return woolyhome_b2b_field($key, false, $default);
+}
+
+function woolyhome_b2b_render_native_home_block(array $attributes, string $content, WP_Block $block): string {
+    global $woolyhome_b2b_current_block_attrs;
+
+    $previous_attrs = $woolyhome_b2b_current_block_attrs ?? null;
+    $woolyhome_b2b_current_block_attrs = $attributes;
+    $name = str_replace('woolyhome/', 'woolyhome-', $block->name);
+
+    ob_start();
+    woolyhome_b2b_render_home_block(array('name' => 'acf/' . $name));
+    $output = ob_get_clean();
+
+    $woolyhome_b2b_current_block_attrs = $previous_attrs;
+
+    return $output ?: '';
+}
+
+function woolyhome_b2b_parse_pipe_rows($value, array $keys): array {
+    if (is_array($value)) {
+        return $value;
+    }
+
+    if (!is_string($value) || trim($value) === '') {
+        return array();
+    }
+
+    $rows = array();
+    foreach (array_filter(array_map('trim', preg_split('/\r\n|\r|\n/', $value))) as $line) {
+        $parts = array_map('trim', explode('|', $line));
+        $row = array();
+        foreach ($keys as $index => $key) {
+            if (!empty($parts[$index])) {
+                $row[$key] = $parts[$index];
+            }
+        }
+        if ($row) {
+            $rows[] = $row;
+        }
+    }
+
+    return $rows;
 }
 
 function woolyhome_b2b_render_home_block(array $block, string $content = '', bool $is_preview = false, int $post_id = 0): void {
@@ -232,6 +344,7 @@ function woolyhome_b2b_render_hero_block(): void {
 
 function woolyhome_b2b_render_product_categories_block(): void {
     $cards = woolyhome_b2b_block_field('product_category_cards', array());
+    $cards = woolyhome_b2b_parse_pipe_rows($cards, array('title', 'description', 'link', 'image'));
     if (!$cards) {
         $cards = array_map(function ($cat) {
             return array('title' => $cat['name'], 'description' => $cat['desc'], 'image' => null, 'link' => home_url('/product-category/' . $cat['slug'] . '/'));
@@ -269,6 +382,7 @@ function woolyhome_b2b_render_product_categories_block(): void {
 
 function woolyhome_b2b_render_why_block(): void {
     $points = woolyhome_b2b_block_field('why_points', array());
+    $points = woolyhome_b2b_parse_pipe_rows($points, array('title', 'description', 'icon'));
     if (!$points) {
         $points = array(
             array('title' => 'Natural Wool Materials', 'description' => 'Selected wool and sheepskin materials for soft, breathable, and comfortable product lines.'),
@@ -324,6 +438,7 @@ function woolyhome_b2b_render_oem_block(): void {
 
 function woolyhome_b2b_render_factory_block(): void {
     $steps = woolyhome_b2b_block_field('factory_steps', array());
+    $steps = woolyhome_b2b_parse_pipe_rows($steps, array('title', 'description'));
     if (!$steps) {
         $steps = array(
             array('title' => 'Material Preparation', 'description' => 'Incoming wool and sheepskin materials are prepared for order requirements.'),

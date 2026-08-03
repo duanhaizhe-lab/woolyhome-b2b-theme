@@ -9,7 +9,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-define('WOOLYHOME_B2B_VERSION', '0.1.3');
+define('WOOLYHOME_B2B_VERSION', '0.1.4');
 define('WOOLYHOME_B2B_DIR', get_template_directory());
 define('WOOLYHOME_B2B_URI', get_template_directory_uri());
 

@@ -51,7 +51,7 @@ After deploying, reopen `Pages > Home > Edit` to see the Home field group below 
 
 ## Visual Home Editing With ACF Blocks
 
-When ACF Blocks are available, the theme registers these Gutenberg blocks:
+When ACF Blocks are available, the theme registers these sections as ACF Gutenberg blocks. If the installed ACF plugin does not provide the ACF Blocks API, the theme registers native dynamic Gutenberg blocks with the same WoolyHome section names:
 
 - WoolyHome Hero Block
 - Product Categories Block
@@ -63,9 +63,9 @@ When ACF Blocks are available, the theme registers these Gutenberg blocks:
 - Blog Preview Block
 - Contact Info Block
 
-Open `Pages > Home > Edit`, click the Gutenberg `+` button, and search for `WoolyHome`. Each section can be inserted, edited, duplicated, removed, and reordered like a normal block.
+Open `Pages > Home > Edit`, click the Gutenberg `+` button, and search for `WoolyHome`. Each section can be inserted, edited, duplicated, removed, and reordered like a normal block. Native fallback blocks store their values as block attributes; ACF Blocks store their values as ACF block fields.
 
-The original page-level ACF fields remain available. If no WoolyHome blocks exist in the Home page content, `front-page.php` still renders the fallback homepage sections with default content and default images. If the Home page still contains only `WoolyHome B2B manufacturer home page.`, the theme safely replaces that demo sentence with the default WoolyHome block stack once ACF Blocks are available.
+The original page-level ACF fields remain available. If no WoolyHome blocks exist in the Home page content, `front-page.php` still renders the fallback homepage sections with default content and default images. If the Home page still contains only `WoolyHome B2B manufacturer home page.`, the theme safely replaces that demo sentence with the default WoolyHome block stack.
 
 ## Content Management
 

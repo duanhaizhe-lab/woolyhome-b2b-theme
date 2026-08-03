@@ -33,6 +33,10 @@ button, input, select, textarea { font: inherit; }
 .wh-section { padding: 104px 0; }
 .wh-section-blue { background: linear-gradient(135deg, #f7fbfc, var(--wh-blue)); }
 .wh-section-cream { background: var(--wh-cream); }
+.wh-editor-section-card { border: 1px solid #e8ded0; border-radius: 10px; background: #fbf8f2; padding: 18px; }
+.wh-editor-section-card-inner { border: 1px dashed #c6ad8a; border-radius: 8px; background: #fff; padding: 18px; color: #352418; }
+.wh-editor-section-card-inner strong { display: block; font-size: 17px; margin-bottom: 6px; }
+.wh-editor-section-card-inner p { margin: 0; color: #6d5b4b; font-size: 13px; }
 .wh-eyebrow {
   margin: 0 0 14px;
   color: var(--wh-brown);
