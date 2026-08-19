@@ -17,6 +17,7 @@ Deployment target: upload the contents of this folder into `wp-content/themes/wo
 - `page-factory.php`: Factory page template.
 - `page-quality-control.php`: Quality Control page template.
 - `page-contact.php`: Contact page template.
+- `page-static-home.php` (`Template Name: WoolyHome Static Home`): a hand-authored, non-ACF one-page layout (hero, product range, why WoolyHome, OEM/ODM, factory, quality control, buyer types, contact). Assign it to any Page via Page Attributes > Template to use it as-is; it reuses the theme's real header/footer and Customizer contact info, and loads its own styles from `assets/css/static-home.css`.
 - `home.php`: Blog index.
 - `single.php`: Blog post.
 - `archive.php`, `page.php`, `index.php`: fallback templates.

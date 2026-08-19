@@ -45,6 +45,21 @@ function woolyhome_b2b_assets(): void {
 }
 add_action('wp_enqueue_scripts', 'woolyhome_b2b_assets');
 
+function woolyhome_b2b_static_home_assets(): void {
+    if (!is_page_template('page-static-home.php')) {
+        return;
+    }
+    wp_enqueue_style(
+        'woolyhome-static-home-fonts',
+        'https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap',
+        array(),
+        null
+    );
+    wp_enqueue_style('woolyhome-static-home', WOOLYHOME_B2B_URI . '/assets/css/static-home.css', array('woolyhome-static-home-fonts'), WOOLYHOME_B2B_VERSION);
+    wp_enqueue_script('woolyhome-static-home', WOOLYHOME_B2B_URI . '/assets/js/static-home.js', array(), WOOLYHOME_B2B_VERSION, true);
+}
+add_action('wp_enqueue_scripts', 'woolyhome_b2b_static_home_assets', 20);
+
 function woolyhome_b2b_register_content_types(): void {
     register_post_type('products', array(
         'labels' => array(
