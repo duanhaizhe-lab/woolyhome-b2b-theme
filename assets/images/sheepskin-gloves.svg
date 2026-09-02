@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 650" role="img" aria-label="Sheepskin gloves product visual">
+  <defs>
+    <linearGradient id="bg2" x1="0" x2="1" y1="0" y2="1">
+      <stop stop-color="#fbf8f2"/>
+      <stop offset=".55" stop-color="#e9f3f6"/>
+      <stop offset="1" stop-color="#e7d8c3"/>
+    </linearGradient>
+    <linearGradient id="leather" x1="0" x2="0" y1="0" y2="1">
+      <stop stop-color="#dcb98d"/>
+      <stop offset="1" stop-color="#c69a68"/>
+    </linearGradient>
+  </defs>
+  <rect width="900" height="650" fill="url(#bg2)"/>
+  <path d="M330 470
+    c-4 -70 -18 -110 -18 -160 c0 -22 32 -22 34 2 l6 78
+    c2 -30 -6 -140 2 -170 c6 -24 40 -22 42 2 l8 156
+    c2 -34 0 -190 8 -214 c8 -22 40 -18 40 6 l4 214
+    c4 -30 8 -170 18 -190 c10 -20 40 -10 38 12 l-14 230
+    c30 8 46 34 44 74 c-4 66 -46 112 -116 112 h-6
+    c-64 0 -96 -46 -100 -102 l-6 -50z"
+    fill="url(#leather)" stroke="#a97c4c" stroke-width="3"/>
+  <path d="M300 486 c40 26 220 26 262 -6" fill="none" stroke="#fbf8f2" stroke-width="26" stroke-linecap="round"/>
+  <g stroke="#fff" stroke-opacity=".9" stroke-width="3" fill="none">
+    <path d="M296 480 q10 10 4 22"/>
+    <path d="M316 494 q10 8 6 22"/>
+    <path d="M338 502 q10 6 8 20"/>
+    <path d="M362 508 q10 4 10 18"/>
+    <path d="M388 510 q10 2 10 16"/>
+    <path d="M414 510 q10 0 10 14"/>
+    <path d="M440 508 q10 -2 12 12"/>
+    <path d="M466 504 q10 -4 14 10"/>
+    <path d="M490 496 q10 -6 16 6"/>
+    <path d="M512 484 q8 -8 16 2"/>
+  </g>
+</svg>

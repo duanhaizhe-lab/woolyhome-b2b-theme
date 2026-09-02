@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="WoolyHome logo mark">
+  <path d="M12 46 L60 10 L108 46" fill="none" stroke="#5c8f52" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M78 20 L92 20 L92 34" fill="none" stroke="#5c8f52" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+  <g fill="none" stroke="#5c8f52" stroke-width="2.4">
+    <rect x="54" y="26" width="6" height="6"/>
+    <rect x="62" y="26" width="6" height="6"/>
+    <rect x="54" y="34" width="6" height="6"/>
+    <rect x="62" y="34" width="6" height="6"/>
+  </g>
+  <path d="M60 46
+    c9 -10 24 -8 27 3
+    c9 -3 18 5 14 14
+    c8 4 6 17 -4 18
+    c1 9 -8 15 -16 12
+    c-3 7 -13 8 -18 2
+    c-6 5 -16 2 -17 -6
+    c-9 0 -13 -11 -6 -17
+    c-6 -8 2 -19 12 -17
+    c1 -5 4 -8 8 -9 z"
+    fill="none" stroke="#7bab6c" stroke-width="6" stroke-linejoin="round"/>
+  <path d="M31 64
+    c-7 2 -12 10 -8 18
+    c2 5 7 8 12 8"
+    fill="none" stroke="#7bab6c" stroke-width="6" stroke-linecap="round"/>
+  <circle cx="45" cy="70" r="1.6" fill="#5c8f52"/>
+  <path d="M40 66 q5 5 10 0" fill="none" stroke="#5c8f52" stroke-width="2.4" stroke-linecap="round"/>
+  <path d="M56 62 q10 -6 18 2 q-9 4 -18 -2 z" fill="#5c8f52"/>
+</svg>
