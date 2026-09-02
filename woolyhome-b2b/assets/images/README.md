@@ -11,12 +11,10 @@ Replace with real images in WordPress admin:
 
 Default files:
 
+- `logo-mark.svg` (header / footer brand mark, used until a Custom Logo is uploaded)
 - `hero-wool-home.svg`
-- `sheepskin-rugs.svg`
-- `wool-comforters.svg`
 - `wool-dryer-balls.svg`
-- `wool-gloves.svg`
-- `wool-socks.svg`
+- `wool-gloves.svg` (also used as the Sheepskin Gloves default)
 - `oem-packaging.svg`
 - `factory-preview.svg`
 - `quality-control.svg`
@@ -24,8 +22,8 @@ Default files:
 
 Recommended image directions:
 
-- Soft wool comforter / sheepskin home lifestyle hero
-- Product category lifestyle photos
+- Wool dryer balls / sheepskin gloves lifestyle hero
+- Product photos for Wool Dryer Balls and Sheepskin Gloves
 - OEM packaging, labels, swatches, and sample details
 - Clean production, material preparation, sewing, filling, packing
 - Quality inspection, size check, stitching check, final packing

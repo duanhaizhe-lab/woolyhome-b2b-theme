@@ -9,7 +9,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-define('WOOLYHOME_B2B_VERSION', '0.1.4');
+define('WOOLYHOME_B2B_VERSION', '0.1.5');
 define('WOOLYHOME_B2B_DIR', get_template_directory());
 define('WOOLYHOME_B2B_URI', get_template_directory_uri());
 
@@ -44,6 +44,13 @@ function woolyhome_b2b_assets(): void {
     wp_enqueue_script('woolyhome-b2b-main', WOOLYHOME_B2B_URI . '/assets/js/main.js', array(), WOOLYHOME_B2B_VERSION, true);
 }
 add_action('wp_enqueue_scripts', 'woolyhome_b2b_assets');
+
+function woolyhome_b2b_logo(bool $with_tagline = false): string {
+    $mark = '<img class="wh-logo-mark" src="' . esc_url(WOOLYHOME_B2B_URI . '/assets/images/logo-mark.svg') . '" alt="" width="34" height="34">';
+    $wordmark = '<span class="wh-logo-word"><strong>Wooly</strong>Home</span>';
+    $tagline = $with_tagline ? '<span class="wh-logo-tagline">Natural &middot; Soft &middot; Comfort</span>' : '';
+    return '<span class="wh-logo-inner">' . $mark . '<span class="wh-logo-text">' . $wordmark . $tagline . '</span></span>';
+}
 
 function woolyhome_b2b_register_content_types(): void {
     register_post_type('products', array(
@@ -85,7 +92,8 @@ function woolyhome_b2b_customize_register(WP_Customize_Manager $wp_customize): v
         'contact_phone'          => array('Phone', '+86 135 8212 2653'),
         'contact_whatsapp'       => array('WhatsApp Link', 'https://wa.me/8613582122653'),
         'contact_phone_link'     => array('Phone Link', 'tel:+8613582122653'),
-        'contact_address'        => array('Address', 'ShiJiaZhuang 050000, China'),
+        'contact_address'        => array('Address', 'Science & Technology Building, Shijiazhuang, Hebei, China'),
+        'contact_address_cn'     => array('Address (Chinese)', '河北省石家庄市科技大厦'),
         'inquiry_form_shortcode' => array('Inquiry Form Shortcode', ''),
         'newsletter_shortcode'   => array('Newsletter Shortcode', ''),
         'cn_language_link'       => array('Chinese Link', '/cn/'),
@@ -111,7 +119,8 @@ function woolyhome_b2b_contact(string $key): string {
         'contact_phone'          => '+86 135 8212 2653',
         'contact_whatsapp'       => 'https://wa.me/8613582122653',
         'contact_phone_link'     => 'tel:+8613582122653',
-        'contact_address'        => 'ShiJiaZhuang 050000, China',
+        'contact_address'        => 'Science & Technology Building, Shijiazhuang, Hebei, China',
+        'contact_address_cn'     => '河北省石家庄市科技大厦',
         'inquiry_form_shortcode' => '',
         'newsletter_shortcode'   => '',
         'cn_language_link'       => '/cn/',
@@ -188,11 +197,9 @@ function woolyhome_b2b_default_image_file(string $context = ''): string {
     $context = strtolower($context);
     $map = array(
         'hero'               => 'hero-wool-home.svg',
-        'sheepskin'          => 'sheepskin-rugs.svg',
-        'comforter'          => 'wool-comforters.svg',
         'dryer'              => 'wool-dryer-balls.svg',
         'glove'              => 'wool-gloves.svg',
-        'sock'               => 'wool-socks.svg',
+        'sheepskin'          => 'wool-gloves.svg',
         'oem'                => 'oem-packaging.svg',
         'packaging'          => 'oem-packaging.svg',
         'factory'            => 'factory-preview.svg',
@@ -200,9 +207,9 @@ function woolyhome_b2b_default_image_file(string $context = ''): string {
         'quality'            => 'quality-control.svg',
         'inspection'         => 'quality-control.svg',
         'contact'            => 'contact-bg.svg',
-        'blog'               => 'wool-comforters.svg',
-        'product category'   => 'wool-comforters.svg',
-        'product'            => 'wool-comforters.svg',
+        'blog'               => 'wool-dryer-balls.svg',
+        'product category'   => 'wool-dryer-balls.svg',
+        'product'            => 'wool-dryer-balls.svg',
     );
 
     foreach ($map as $needle => $file) {
@@ -337,21 +344,15 @@ add_action('init', function () {
 
 function woolyhome_b2b_demo_categories(): array {
     return array(
-        array('name' => 'Sheepskin Rugs', 'slug' => 'sheepskin-rugs', 'desc' => 'Soft natural sheepskin rugs for home retail, hospitality, and lifestyle collections.'),
-        array('name' => 'Wool Comforters', 'slug' => 'wool-comforters', 'desc' => 'Breathable wool-filled comforters for bedding brands, hotels, and home textile buyers.'),
         array('name' => 'Wool Dryer Balls', 'slug' => 'wool-dryer-balls', 'desc' => 'Reusable wool dryer balls for eco-friendly laundry, gift sets, and private label programs.'),
-        array('name' => 'Wool Gloves', 'slug' => 'wool-gloves', 'desc' => 'Warm wool gloves for seasonal retail, outdoor use, and custom brand programs.'),
-        array('name' => 'Wool Socks', 'slug' => 'wool-socks', 'desc' => 'Comfortable wool socks for lifestyle, outdoor, travel, and wholesale collections.'),
+        array('name' => 'Sheepskin Gloves', 'slug' => 'sheepskin-gloves', 'desc' => 'Warm natural sheepskin gloves for seasonal retail, outdoor use, and custom brand programs.'),
     );
 }
 
 function woolyhome_b2b_demo_products(): array {
     return array(
-        array('title' => 'Natural Sheepskin Rug', 'category' => 'Sheepskin Rugs', 'desc' => 'Soft rug direction for home retail, decor brands, and hospitality spaces.'),
-        array('title' => 'All-Season Wool Comforter', 'category' => 'Wool Comforters', 'desc' => 'Breathable wool bedding direction for private label and hotel sourcing.'),
         array('title' => 'Reusable Wool Dryer Balls', 'category' => 'Wool Dryer Balls', 'desc' => 'Natural laundry product for eco-friendly gift sets and retail programs.'),
-        array('title' => 'Winter Wool Gloves', 'category' => 'Wool Gloves', 'desc' => 'Warm seasonal accessory option for outdoor, lifestyle, and wholesale buyers.'),
-        array('title' => 'Warm Wool Socks', 'category' => 'Wool Socks', 'desc' => 'Comfortable wool sock programs for retail, travel, and outdoor collections.'),
+        array('title' => 'Natural Sheepskin Gloves', 'category' => 'Sheepskin Gloves', 'desc' => 'Warm seasonal accessory option for outdoor, lifestyle, and wholesale buyers.'),
     );
 }
 
@@ -374,7 +375,7 @@ function woolyhome_b2b_render_inquiry_form($shortcode = ''): void {
         <label><span>Name</span><input type="text" name="name" placeholder="Your name"></label>
         <label><span>Email</span><input type="email" name="email" placeholder="you@example.com"></label>
         <label><span>Company</span><input type="text" name="company" placeholder="Company name"></label>
-        <label><span>Product Interest</span><select name="product_interest"><option>Wool Comforters</option><option>Sheepskin Rugs</option><option>Wool Dryer Balls</option><option>Wool Gloves</option><option>Wool Socks</option><option>OEM / ODM Project</option></select></label>
+        <label><span>Product Interest</span><select name="product_interest"><option>Wool Dryer Balls</option><option>Sheepskin Gloves</option><option>OEM / ODM Project</option></select></label>
         <label><span>Quantity</span><input type="text" name="quantity" placeholder="Estimated quantity"></label>
         <label class="full"><span>Message</span><textarea name="message" rows="5" placeholder="Share your sourcing requirements"></textarea></label>
         <button class="wh-btn wh-btn-light" type="submit">Submit Inquiry</button>
@@ -451,7 +452,7 @@ function woolyhome_b2b_schema(): void {
         'url'      => home_url('/'),
         'email'    => woolyhome_b2b_contact('contact_email'),
         'telephone'=> woolyhome_b2b_contact('contact_phone'),
-        'address'  => array('@type' => 'PostalAddress', 'addressLocality' => 'ShiJiaZhuang', 'postalCode' => '050000', 'addressCountry' => 'CN'),
+        'address'  => array('@type' => 'PostalAddress', 'streetAddress' => 'Science & Technology Building', 'addressLocality' => 'Shijiazhuang', 'addressRegion' => 'Hebei', 'addressCountry' => 'CN'),
     );
     echo '<script type="application/ld+json">' . wp_json_encode($schema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) . '</script>';
 

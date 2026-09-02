@@ -25,9 +25,9 @@ get_template_part('template-parts/components/page-hero', null, array(
                     }
                 } else {
                     $demo_posts = array(
-                        array('title' => 'How to Source Wool Comforters for Private Label Bedding Brands', 'excerpt' => 'Key points for selecting materials, sizes, packaging, and bulk order specifications.', 'meta' => 'Private Label Guide'),
-                        array('title' => 'Sheepskin Rugs for Home Retail: What B2B Buyers Should Know', 'excerpt' => 'How to plan rug collections for lifestyle, decor, hospitality, and seasonal programs.', 'meta' => 'Retail Sourcing'),
                         array('title' => 'Wool Dryer Balls: A Natural Laundry Product for Eco-Friendly Gift Sets', 'excerpt' => 'Why reusable wool dryer balls fit eco-friendly retail and private label programs.', 'meta' => 'Eco Gift Sets'),
+                        array('title' => 'Sourcing Sheepskin Gloves for Wholesale: Material, Sizing, and Private Label', 'excerpt' => 'What B2B buyers should check before placing a bulk sheepskin glove order.', 'meta' => 'Wholesale Guide'),
+                        array('title' => 'How to Order Wool Dryer Balls in Bulk: A B2B Buyer Checklist', 'excerpt' => 'Key points for selecting sizes, packaging, labeling, and bulk order quantities.', 'meta' => 'Buyer Checklist'),
                     );
                     foreach ($demo_posts as $post_item) {
                         get_template_part('template-parts/cards/post-card', null, array('post' => $post_item));

@@ -16,7 +16,7 @@
 <footer class="wh-site-footer">
     <div class="wh-container wh-footer-grid">
         <section class="wh-footer-brand">
-            <a class="wh-footer-logo" href="<?php echo esc_url(home_url('/')); ?>">WoolyHome</a>
+            <a class="wh-footer-logo" href="<?php echo esc_url(home_url('/')); ?>"><?php echo woolyhome_b2b_logo(true); ?></a>
             <p>WoolyHome supplies natural wool and sheepskin products for global brands, wholesalers, retailers, hospitality buyers, and private label projects.</p>
             <div class="wh-social-reserved"><span>Social links reserved</span></div>
         </section>
@@ -39,7 +39,7 @@
             <a href="mailto:<?php echo esc_attr(woolyhome_b2b_contact('contact_email')); ?>"><?php echo esc_html(woolyhome_b2b_contact('contact_email')); ?></a>
             <a href="<?php echo esc_url(woolyhome_b2b_contact('contact_whatsapp')); ?>">WhatsApp: <?php echo esc_html(woolyhome_b2b_contact('contact_phone')); ?></a>
             <a href="<?php echo esc_url(woolyhome_b2b_contact('contact_phone_link')); ?>">Phone: <?php echo esc_html(woolyhome_b2b_contact('contact_phone')); ?></a>
-            <p><?php echo esc_html(woolyhome_b2b_contact('contact_address')); ?></p>
+            <p><?php echo esc_html(woolyhome_b2b_contact('contact_address')); ?><br><span class="wh-address-cn"><?php echo esc_html(woolyhome_b2b_contact('contact_address_cn')); ?></span></p>
             <div class="wh-newsletter">
                 <h3>Newsletter</h3>
                 <?php

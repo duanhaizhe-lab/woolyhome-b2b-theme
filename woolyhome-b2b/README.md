@@ -6,6 +6,12 @@ This is a custom WordPress theme for a wool / sheepskin B2B manufacturer website
 
 Deployment target: upload the contents of this folder into `wp-content/themes/woolyhome-b2b/`.
 
+Current product line: Wool Dryer Balls and Sheepskin Gloves. Add more Product Categories from WordPress admin any time; the taxonomy, archive, and card templates are not limited to two.
+
+## Branding / Logo
+
+`assets/images/logo-mark.svg` is a code-drawn WoolyHome icon (green house + sheep mark) used automatically in the header and footer whenever no custom logo is set. To use the official WoolyHome logo artwork instead, go to `Appearance > Customize > Site Identity` and upload it as the Custom Logo; it will replace the code-drawn mark everywhere. Brand green: `#5c8f52`.
+
 ## Included Templates
 
 - `front-page.php`: Home page with hero, product categories, value points, OEM / ODM, factory, quality control, buyer types, featured products, inquiry CTA, and blog preview.
@@ -74,8 +80,8 @@ Use WordPress admin:
 - Pages: Home, Products, OEM / ODM, Factory, Quality Control, Contact.
 - Posts: Blog articles.
 - Products custom post type: Product entries.
-- Product Categories taxonomy: Sheepskin Rugs, Wool Comforters, Wool Dryer Balls, Wool Gloves, Wool Socks.
-- Customizer > WoolyHome Contact & Forms: contact info, Chinese link, inquiry form shortcode, newsletter shortcode.
+- Product Categories taxonomy: Wool Dryer Balls, Sheepskin Gloves.
+- Customizer > WoolyHome Contact & Forms: email, phone, WhatsApp link, English + Chinese address, Chinese site link, inquiry form shortcode, newsletter shortcode.
 - ACF fields: page banners, home modules, product details, FAQ, CTA, and form shortcode.
 
 ## Automatic Page Setup
@@ -96,17 +102,14 @@ It sets Home as the front page, Blog as the posts page, creates product categori
 
 The theme displays demo fallback cards when there are no Products or Posts yet:
 
-- Natural Sheepskin Rug
-- All-Season Wool Comforter
 - Reusable Wool Dryer Balls
-- Winter Wool Gloves
-- Warm Wool Socks
+- Natural Sheepskin Gloves
 
 Demo blog fallback:
 
-- How to Source Wool Comforters for Private Label Bedding Brands
-- Sheepskin Rugs for Home Retail: What B2B Buyers Should Know
 - Wool Dryer Balls: A Natural Laundry Product for Eco-Friendly Gift Sets
+- Sourcing Sheepskin Gloves for Wholesale: Material, Sizing, and Private Label
+- How to Order Wool Dryer Balls in Bulk: A B2B Buyer Checklist
 
 The theme does not automatically create posts or pages on activation, so it will not modify existing website content.
 

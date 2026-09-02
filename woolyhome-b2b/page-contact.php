@@ -22,7 +22,7 @@ get_template_part('template-parts/components/page-hero', null, array(
                 <article class="wh-mini-card"><h3>Email</h3><p><a href="mailto:<?php echo esc_attr(woolyhome_b2b_contact('contact_email')); ?>"><?php echo esc_html(woolyhome_b2b_contact('contact_email')); ?></a></p></article>
                 <article class="wh-mini-card"><h3>WhatsApp</h3><p><a href="<?php echo esc_url(woolyhome_b2b_contact('contact_whatsapp')); ?>"><?php echo esc_html(woolyhome_b2b_contact('contact_phone')); ?></a></p></article>
                 <article class="wh-mini-card"><h3>Phone</h3><p><a href="<?php echo esc_url(woolyhome_b2b_contact('contact_phone_link')); ?>"><?php echo esc_html(woolyhome_b2b_contact('contact_phone')); ?></a></p></article>
-                <article class="wh-mini-card"><h3>Address</h3><p><?php echo esc_html(woolyhome_b2b_contact('contact_address')); ?></p></article>
+                <article class="wh-mini-card"><h3>Address</h3><p><?php echo esc_html(woolyhome_b2b_contact('contact_address')); ?><br><span class="wh-address-cn"><?php echo esc_html(woolyhome_b2b_contact('contact_address_cn')); ?></span></p></article>
             </div>
         </div>
         <div id="inquiry" class="wh-contact-form-panel"><?php woolyhome_b2b_render_inquiry_form(woolyhome_b2b_field('form_shortcode', get_the_ID(), '')); ?></div>

@@ -19,7 +19,7 @@
             <?php if (has_custom_logo()) : ?>
                 <?php the_custom_logo(); ?>
             <?php else : ?>
-                <a class="wh-logo" href="<?php echo esc_url(home_url('/')); ?>" aria-label="<?php esc_attr_e('WoolyHome home', 'woolyhome-b2b'); ?>">WoolyHome</a>
+                <a class="wh-logo" href="<?php echo esc_url(home_url('/')); ?>" aria-label="<?php esc_attr_e('WoolyHome home', 'woolyhome-b2b'); ?>"><?php echo woolyhome_b2b_logo(); ?></a>
             <?php endif; ?>
         </div>
         <button class="wh-menu-toggle" type="button" aria-label="<?php esc_attr_e('Open menu', 'woolyhome-b2b'); ?>" aria-expanded="false" data-menu-toggle><span></span><span></span><span></span></button>
