@@ -1,7 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 650" role="img" aria-label="Wool comforters visual">
-  <defs><linearGradient id="a" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#ffffff"/><stop offset=".45" stop-color="#eaf3f5"/><stop offset="1" stop-color="#eadbc7"/></linearGradient></defs>
-  <rect width="900" height="650" fill="url(#a)"/>
-  <rect x="140" y="210" width="620" height="270" rx="34" fill="#fffaf2"/>
-  <path d="M160 300h580M160 390h580M290 220v250M450 220v250M610 220v250" stroke="#d5bfa5" stroke-width="8" opacity=".55"/>
-  <ellipse cx="450" cy="500" rx="290" ry="34" fill="#b89472" opacity=".18"/>
-</svg>
